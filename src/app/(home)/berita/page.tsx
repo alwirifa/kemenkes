@@ -4,7 +4,7 @@ import React from "react";
 
 type Props = {};
 
-const page = (props: Props) => {
+const Berita = (props: Props) => {
   return (
     <div className="h-full ">
       <BeritaTerkini />
@@ -12,4 +12,4 @@ const page = (props: Props) => {
   );
 };
 
-export default page;
+export default Berita;
