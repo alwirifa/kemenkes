@@ -1,13 +1,15 @@
-import React from 'react'
 
-type Props = {}
+import BeritaTerkini from "@/components/home/Berita";
+import React from "react";
+
+type Props = {};
 
 const page = (props: Props) => {
   return (
-   <div className='h-full py-72 flex justify-center items-center font-semibold text-3xl'>
-   Sedang Dalam Pengembangan
-     </div>
-  )
-}
+    <div className="h-full ">
+      <BeritaTerkini />
+    </div>
+  );
+};
 
-export default page
+export default page;

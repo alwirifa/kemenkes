@@ -8,11 +8,11 @@ type Props = {
 
 const DashboardLayout = ({ children }: Props) => {
   return (
-    <>
-        <Header />
-        <main className="px-3 lg:px-14">{children}</main>
-        <Footer />
-    </>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow">{children}</main>
+      <Footer />
+    </div>
   );
 };
 

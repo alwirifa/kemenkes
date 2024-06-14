@@ -15,7 +15,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ title, description, link }) => {
       </div>
       <a
         href={link}
-        className="text-center bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+        className="text-center bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/80"
       >
         Selengkapnya
       </a>
