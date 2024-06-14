@@ -6,14 +6,12 @@ type Props = {};
 const Footer = (props: Props) => {
   return (
     <footer className="bg-white text-gray-600 py-8 px-4 lg:px-14">
-      {/* <header className=" px-4 py-8 lg:px-14">
-     <div className="max-w-screen-2xl mx-auto"> */}
-      <div className="max-w-screen-2xl mx-auto flex justify-between items-center">
+      <div className="max-w-screen-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <div className="space-y-2">
           <Image
             src={"/icons/logo_kemenkes.png"}
             alt="logo"
-            height={10}
+            height={50}
             width={200}
           />
           <div>

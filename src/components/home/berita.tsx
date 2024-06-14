@@ -49,7 +49,7 @@ const BeritaTerkini: React.FC<Props> = () => {
       <div className="container mx-auto text-center px-4">
         <h2 className="text-4xl font-bold text-gray-800 mb-4">Berita Terkini</h2>
         <p className="text-gray-600 mb-12">Update terbaru: Pastikan PT anda telah melaporkan data Tracer Studi pelaksanaan tahun 2019, untuk memenuhi data pemeringkatan tahun 2020</p>
-        <div className="flex justify-center">
+        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
           {news.map((item, index) => (
             <NewsCard
               key={index}
