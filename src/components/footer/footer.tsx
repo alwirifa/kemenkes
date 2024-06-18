@@ -41,9 +41,11 @@ const Footer = (props: Props) => {
         </div>
         <div>
           <h2 className="font-bold text-lg mb-2">ALAMAT</h2>
-          <p>Gedung D. Jln. Raya Jend Sudirman Pintu I</p>
-          <p>Senayan Jakarta 10270</p>
+          <p>Gedung Kemenkes RI</p>
+          <p>Jl. HR. Rasuna Said Blok X.5 Kav. 4-9</p>
+          <p>Jakarta 12950</p>
         </div>
+
         <div>
           <h2 className="font-bold text-lg mb-2">KONTAK</h2>
           <p>Telp : +62 (21) 57946105</p>
@@ -52,13 +54,13 @@ const Footer = (props: Props) => {
               href="mailto:belmawa@dikti.go.id"
               className="text-blue-600 hover:underline"
             >
-              belmawa@dikti.go.id
+              be@dikti.go.id
             </a>
           </p>
         </div>
       </div>
       <div className="container mx-auto text-center border-t pt-4 mt-8">
-        <p>© Copyright © DIKTI - All Rights Reserved.</p>
+        <p>© Copyright © KEMENKES - All Rights Reserved.</p>
       </div>
     </footer>
   );

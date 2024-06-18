@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
+import Image from "next/image";
 
 const routes = [
   {
@@ -41,8 +42,6 @@ const Navigation = () => {
   const router = useRouter();
   const isMobile = useMedia("(max-width: 1024px)", false);
 
-
-
   const onClick = (href: string) => {
     router.push(href);
     setIsOpen(false);
@@ -51,15 +50,26 @@ const Navigation = () => {
   if (isMobile) {
     return (
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetTrigger>
-          <Button
-            variant="outline"
-            size="sm"
-            className="font-normal  hover:text-primary border-none focus-visible:ring-offset-0 focus-visible:ring-transparent outline-none text-black fpcus:bg-white/30 transition"
-          >
-            <Menu className="size-4" />
-          </Button>
-        </SheetTrigger>
+        <div className="flex justify-between items-center w-full ">
+          <div className="absolute top-7 left-6">
+
+          <Image
+            src={"/icons/logo_kemenkes.png"}
+            alt="logo"
+            height={10}
+            width={200}
+          />
+            </div>
+          <SheetTrigger>
+            <Button
+              variant="outline"
+              size="sm"
+              className="font-normal  hover:text-primary border-none focus-visible:ring-offset-0 focus-visible:ring-transparent outline-none text-black fpcus:bg-white/30 transition"
+            >
+              <Menu className="size-4" />
+            </Button>
+          </SheetTrigger>
+        </div>
         <SheetContent side="right" className="px-2">
           <nav className="flex flex-col gap-y-2 py-6">
             {routes.map((route) => (
