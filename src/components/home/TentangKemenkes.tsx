@@ -6,23 +6,41 @@ type Props = {};
 const TentangKemenkes = (props: Props) => {
   return (
     <Container>
-      <section className="bg-white pb-16">
+      <section className="bg-white ">
         <h2 className="text-4xl font-bold text-gray-800 mb-6">
           Tentang Kemenkes
         </h2>
         <p className="text-gray-600 mb-4 text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, minus? Similique dignissimos placeat aliquam dolor reprehenderit dicta odio voluptas nobis fuga a sunt pariatur, necessitatibus qui praesentium soluta quibusdam? Esse. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae quas, earum quia placeat aliquam porro nihil officiis sint ipsa veritatis mollitia beatae veniam animi debitis tempora totam voluptas atque suscipit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat exercitationem, libero dolorum itaque optio sapiente aperiam facere quasi ducimus eveniet beatae fugiat tempore possimus accusantium tempora? Eligendi unde rem ipsam?
+          Tracer study Kemenkes adalah sebuah studi yang dilakukan untuk
+          menelusuri jejak lulusan institusi pendidikan di bawah naungan
+          Kementerian Kesehatan. Studi ini bertujuan untuk mengumpulkan data
+          terkait keterserapan lulusan di dunia kerja, relevansi antara
+          pendidikan dan pekerjaan, serta kualitas pendidikan yang telah
+          diterima. Melalui tracer study ini, Kemenkes berupaya untuk terus
+          meningkatkan kualitas pendidikan dan menyesuaikan kurikulum agar lebih
+          sesuai dengan kebutuhan industri dan masyarakat.
         </p>
         <ol className="list-decimal list-inside text-gray-600 mb-4">
           <li>
-           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Amet magnam nemo nobis, porro illo rerum, asperiores mollitia cumque tempora voluptates perspiciatis inventore earum ut ratione quaerat sapiente nisi accusamus magni!
+            Tracer study mengidentifikasi keterserapan lulusan dalam berbagai
+            sektor pekerjaan, termasuk rumah sakit, puskesmas, klinik, dan
+            industri kesehatan lainnya. Data yang dikumpulkan memberikan
+            gambaran jelas mengenai distribusi lulusan dan sektor-sektor yang
+            paling membutuhkan tenaga kesehatan.
           </li>
           <li>
-           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit cumque hic porro. Neque consequuntur praesentium consectetur, atque illo quidem voluptatibus commodi dignissimos ratione dolore explicabo autem aliquam dolor velit distinctio.
+            Studi ini juga mengevaluasi relevansi kurikulum pendidikan dengan
+            dunia kerja. Informasi yang diperoleh dari lulusan dan pemberi kerja
+            membantu dalam memperbarui dan meningkatkan materi pendidikan agar
+            sesuai dengan perkembangan ilmu pengetahuan dan teknologi di bidang
+            kesehatan.
           </li>
           <li>
-           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia eos officiis repudiandae maiores, est fuga suscipit recusandae culpa sed officia doloremque accusantium at dolorem quas porro nobis odit excepturi iusto?
-           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos nulla maxime doloremque fugiat blanditiis ab placeat fuga, eligendi totam odio repellendus, porro necessitatibus quisquam beatae tempora corrupti. Illo, neque debitis?
+            Tracer study menilai kualitas pendidikan dari perspektif lulusan dan
+            pemberi kerja. Masukan dari lulusan mengenai pengalaman mereka
+            selama pendidikan serta umpan balik dari pemberi kerja mengenai
+            kompetensi lulusan menjadi dasar penting bagi Kemenkes untuk
+            meningkatkan sistem pendidikan kesehatan di Indonesia.
           </li>
         </ol>
       </section>

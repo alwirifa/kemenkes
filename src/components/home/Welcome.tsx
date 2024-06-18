@@ -7,13 +7,13 @@ const Welcome = () => {
     <Container>
       <section className="py-16 flex flex-col gap-4">
         <h2 className="text-3xl font-semibold">Selamat Datang</h2>
-        <h1 className="text-5xl font-bold text-primary">Kementrian Kesehatan</h1>
-        <p className="max-w-xl">
+        <h1 className="text-5xl font-bold text-primary">ALUMNI POLTEKKES KEMENKES</h1>
+        {/* <p className="max-w-xl">
           Selamat datang, di Laman, Kemenkes Lorem ipsum dolor sit amet
           consectetur adipisicing elit. Minima, dolor ut error enim pariatur ex
           veritatis vitae exercitationem excepturi nesciunt voluptas ducimus
           cupiditate inventore accusantium ab dignissimos corrupti autem est?
-        </p>
+        </p> */}
 
         <div className="mt-8">
           <Link
