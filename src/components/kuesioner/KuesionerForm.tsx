@@ -367,7 +367,7 @@ export default function QuestionerForm() {
                                   {field.value ? (
                                     format(new Date(field.value), "PPP")
                                   ) : (
-                                    <span>Pick a date</span>
+                                    <span>Pilih tanggal kelulusan</span>
                                   )}
                                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                 </Button>
@@ -423,69 +423,6 @@ export default function QuestionerForm() {
                     )}
                   />
 
-                  {/* Social Media Field */}
-                  <FormField
-                    control={form.control}
-                    name="socialMedia"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Social Media</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Social Media"
-                            type="text"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Account Type */}
-                  <FormField
-                    control={form.control}
-                    name="accountType"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Tipe akun</FormLabel>
-                        <Select onValueChange={field.onChange}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select an account type" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="personal">Personal</SelectItem>
-                            <SelectItem value="company">Company</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Company Name */}
-                  {accountType === "company" && (
-                    <FormField
-                      control={form.control}
-                      name="companyName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Nama Perusahaan</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Nama Perusahaan"
-                              type="text"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  )}
-
                   {/* Status Type */}
                   <FormField
                     control={form.control}
@@ -521,25 +458,88 @@ export default function QuestionerForm() {
                         control={form.control}
                         name="lokasiBekerjaType"
                         render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Lokasi Bekerja</FormLabel>
-                            <Select onValueChange={field.onChange}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Pilih lokasi bekerja" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="indonesia">
-                                  Indonesia
-                                </SelectItem>
-                                <SelectItem value="luarNegeri">
-                                  Luar Negeri
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
+                          <div className="flex gap-6 items-center">
+                            <FormItem className="w-full">
+                              <FormLabel>Lokasi Bekerja</FormLabel>
+                              <Select onValueChange={field.onChange}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Pilih lokasi bekerja" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="indonesia">
+                                    Indonesia
+                                  </SelectItem>
+                                  <SelectItem value="luarNegeri">
+                                    Luar Negeri
+                                  </SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+
+                            {/* Date of work */}
+                            <FormField
+                              control={form.control}
+                              name="dateOfGraduated"
+                              render={({ field }) => (
+                                <FormItem className="w-full">
+                                  <FormLabel>Tanggal anda mulai bekerja?</FormLabel>
+                                  <Popover>
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          variant={"outline"}
+                                          className={cn(
+                                            "w-full pl-3 text-left font-normal",
+                                            !field.value &&
+                                              "text-muted-foreground"
+                                          )}
+                                        >
+                                          {field.value ? (
+                                            format(new Date(field.value), "PPP")
+                                          ) : (
+                                            <span>Pilih tanggal mulai bekerja</span>
+                                          )}
+                                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent
+                                      className="w-auto p-0"
+                                      align="start"
+                                    >
+                                      <Calendar
+                                        mode="single"
+                                        captionLayout="dropdown-buttons"
+                                        fromYear={1990}
+                                        toYear={2023}
+                                        selected={
+                                          field.value
+                                            ? new Date(field.value)
+                                            : undefined
+                                        }
+                                        onSelect={(date) =>
+                                          field.onChange(date?.toISOString())
+                                        }
+                                        disabled={(date) =>
+                                          date > new Date() ||
+                                          date < new Date("1900-01-01")
+                                        }
+                                        initialFocus
+                                      />
+                                    </PopoverContent>
+                                  </Popover>
+                                  {/* <FormDescription>
+                      Your date of graduation is used to calculate your
+                      experience.
+                    </FormDescription> */}
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
                         )}
                       />
 
@@ -557,31 +557,31 @@ export default function QuestionerForm() {
                                 <Select onValueChange={field.onChange}>
                                   <FormControl>
                                     <SelectTrigger>
-                                      <SelectValue placeholder="Pilih jenjang pendidikan" />
+                                      <SelectValue placeholder="Pilih intansi tempat bekerja" />
                                     </SelectTrigger>
                                   </FormControl>
                                   <SelectContent>
-                                    <SelectItem value="indonesia">
+                                    <SelectItem value="PUSKESMAS">
                                       Puskesmas
                                     </SelectItem>
 
-                                    <SelectItem value="indonesia">
+                                    <SelectItem value="RSPEMERINTAH">
                                       RS Pemerintah
                                     </SelectItem>
 
-                                    <SelectItem value="indonesia">
+                                    <SelectItem value="RSSWASTA">
                                       RS Swasta
                                     </SelectItem>
 
-                                    <SelectItem value="indonesia">
+                                    <SelectItem value="KLINKSWASTA">
                                       Klinik Swasta
                                     </SelectItem>
 
-                                    <SelectItem value="indonesia">
+                                    <SelectItem value="FSYANKES">
                                       Non Fsyankes
                                     </SelectItem>
 
-                                    <SelectItem value="indonesia">
+                                    <SelectItem value="LUARNEGERI">
                                       Yang lain
                                     </SelectItem>
                                   </SelectContent>
@@ -595,7 +595,7 @@ export default function QuestionerForm() {
                                 </FormLabel>
                                 <FormControl>
                                   <Input
-                                    placeholder="Company name"
+                                    placeholder="Nama intansi"
                                     {...field}
                                   />
                                 </FormControl>
@@ -608,7 +608,7 @@ export default function QuestionerForm() {
                                 </FormLabel>
                                 <FormControl>
                                   <Input
-                                    placeholder="Company name"
+                                    placeholder="Provinsi Bekerja"
                                     {...field}
                                   />
                                 </FormControl>
@@ -628,11 +628,11 @@ export default function QuestionerForm() {
                             <FormItem>
                               <FormItem>
                                 <FormLabel>
-                                  Tahun bekerja anda mulai bekerja
+                                  Tahun berapa anda mulai bekerja
                                 </FormLabel>
                                 <FormControl>
                                   <Input
-                                    placeholder="Company name"
+                                    placeholder="contoh : 2024"
                                     {...field}
                                   />
                                 </FormControl>
@@ -721,7 +721,7 @@ export default function QuestionerForm() {
                                 </FormLabel>
                                 <FormControl>
                                   <Input
-                                    placeholder="Company name"
+                                    placeholder="Nama Intansi"
                                     {...field}
                                   />
                                 </FormControl>
@@ -735,7 +735,7 @@ export default function QuestionerForm() {
                                 </FormLabel>
                                 <FormControl>
                                   <Input
-                                    placeholder="Company name"
+                                    placeholder="Jabatan saat ini"
                                     {...field}
                                   />
                                 </FormControl>
@@ -816,7 +816,7 @@ export default function QuestionerForm() {
                                 </FormLabel>
                                 <FormControl>
                                   <Input
-                                    placeholder="Company name"
+                                    placeholder="Level kemampuan bahasa asing"
                                     {...field}
                                   />
                                 </FormControl>
@@ -849,7 +849,7 @@ export default function QuestionerForm() {
                               <SelectItem value="D4/STr">D4/STr</SelectItem>
                               <SelectItem value="S1">S1</SelectItem>
                               <SelectItem value="S2">S2</SelectItem>
-                              <SelectItem value="S2">S3</SelectItem>
+                              <SelectItem value="S3">S3</SelectItem>
                             </SelectContent>
                           </Select>
 
@@ -858,7 +858,10 @@ export default function QuestionerForm() {
                               Nama program studi yang anda tempuh
                             </FormLabel>
                             <FormControl>
-                              <Input placeholder="Company name" {...field} />
+                              <Input
+                                placeholder="Nama program studi"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -869,7 +872,10 @@ export default function QuestionerForm() {
                               pendidikan saat ini
                             </FormLabel>
                             <FormControl>
-                              <Input placeholder="Company name" {...field} />
+                              <Input
+                                placeholder="Nama perguruan tinggi"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -878,6 +884,25 @@ export default function QuestionerForm() {
                       )}
                     />
                   )}
+
+                  {/* Social Media Field */}
+                  <FormField
+                    control={form.control}
+                    name="socialMedia"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Social Media</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Social Media"
+                            type="text"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </>
               )}
 

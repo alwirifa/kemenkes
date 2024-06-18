@@ -2,13 +2,20 @@
 
 import Container from "@/components/home/Container";
 import {
-  Box,
   FormControl,
-  InputLabel,
-  MenuItem,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+
+import {
   Select,
-  TextField,
-} from "@mui/material";
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import React, { useState } from "react";
 
 type Props = {};
@@ -22,30 +29,20 @@ const page = (props: Props) => {
         </h1>
       </div>
       <Container>
-        <div className="py-16 max-w-5xl mx-auto  lex justify-center">
-          <Box className=" space-y-8 w-full px-16">
-            <Box className="flex gap-8 w-full">
-              <FormControl fullWidth variant="outlined">
-                <InputLabel id="provinsi-label">
-                  Provinsi domisili saat ini
-                </InputLabel>
-                <Select
-                  labelId="provinsi-label"
-                  // value={provinsi}
-                  // onChange={handleProvinsiChange}
-                  label="Provinsi domisili saat ini"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={"provinsi1"}>Provinsi 1</MenuItem>
-                  <MenuItem value={"provinsi2"}>Provinsi 2</MenuItem>
-                  <MenuItem value={"provinsi3"}>Provinsi 3</MenuItem>
-                  {/* Add more provinces as needed */}
-                </Select>
-              </FormControl>
-            </Box>
-          </Box>
+        <div className="py-16 max-w-5xl mx-auto  lex justify-center space-y-2">
+         <Label className="my-2">Pilih Peguruan Tinggi</Label>
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Perguruan Tinggi" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="laki-laki">
+                Universitas Pendidikan Indonesia
+              </SelectItem>
+              <SelectItem value="perempuan">Universitas Indonesia</SelectItem>
+              <SelectItem value="perempuan">Universitas Example</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </Container>
     </form>
