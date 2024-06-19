@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { Toaster } from 'react-hot-toast';
+
 import { Lato, Poppins } from "next/font/google";
 import "./globals.css";
 
 const lato = Poppins({
   subsets: ["latin"],
-  weight: ["100", "300", "400", "700", "900"]
+  weight: ["100", "300", "400", "500", "600", "700", "900"],
 });
 
 export const metadata: Metadata = {
@@ -19,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={lato.className}>{children}</body>
+      <body className={lato.className}>{children}
+
+      <Toaster />
+      </body>
     </html>
   );
 }

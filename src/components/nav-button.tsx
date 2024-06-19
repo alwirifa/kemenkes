@@ -18,7 +18,7 @@ const NavButton = ({ href, label, isActive }: Props) => {
       size="sm"
       variant="outline"
       className={cn(
-        "w-full lg:w-auto justify-between  hover:underline underline-offset-4 uppercase hover:bg-white font-semibold hover:text-primary border-none focus-visible:ring-offset-0 focus-visible:ring-transparent outline-none text-slate-500  transition",
+        "w-full lg:w-auto justify-between  hover:underline underline-offset-4 uppercase hover:bg-white font-semibold hover:text-primary border-none focus-visible:ring-offset-0 focus-visible:ring-transparent outline-none text-muted-foreground  transition",
         isActive ? " text-primary underline underline-offset-4 " : "bg-transparent"
       )}
     >

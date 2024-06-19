@@ -7,9 +7,12 @@ const TentangKemenkes = (props: Props) => {
   return (
     <Container>
       <section className="bg-white ">
-        <h2 className="text-4xl font-bold text-gray-800 mb-6">
+        <h2 className="text-4xl text-muted-foreground mb-6">
           Tentang Kemenkes
         </h2>
+        <div className="leading-[32px] font-[400]">
+
+       
         <p className="text-gray-600 mb-4 text-justify">
           Tracer study Kemenkes adalah sebuah studi yang dilakukan untuk
           menelusuri jejak lulusan institusi pendidikan di bawah naungan
@@ -43,6 +46,7 @@ const TentangKemenkes = (props: Props) => {
             meningkatkan sistem pendidikan kesehatan di Indonesia.
           </li>
         </ol>
+        </div>
       </section>
     </Container>
   );

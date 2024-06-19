@@ -44,6 +44,8 @@ const formSchema = z
     poltekKemenkes: z.string(),
     dateOfGraduated: z.string(),
     str: z.string(),
+    strType: z.enum(["sudah", "belum"]),
+    strDate: z.string().optional(),
     status: z.string(),
     socialMedia: z.string(),
     accountType: z.enum(["personal", "company"]),
@@ -91,6 +93,11 @@ const formSchema = z
     ) {
       return !!data.lokasiLuarNegeri;
     }
+  })
+  .refine((data) => {
+    if (data.strType === "sudah") {
+      return !!data.strDate;
+    }
   });
 
 export default function QuestionerForm() {
@@ -105,6 +112,7 @@ export default function QuestionerForm() {
       poltekKemenkes: "",
       dateOfGraduated: "",
       str: "",
+      strDate: "",
       status: "",
       socialMedia: "",
       emailAddress: "",
@@ -117,6 +125,7 @@ export default function QuestionerForm() {
 
   const accountType = form.watch("accountType");
   const statusType = form.watch("statusType");
+  const strType = form.watch("strType");
   const lokasiBekerjaType = form.watch("lokasiBekerjaType");
   const [date, setDate] = React.useState<Date | undefined>(new Date());
 
@@ -133,11 +142,11 @@ export default function QuestionerForm() {
     <main className="flex flex-col w-full">
       <Container>
         <div className="pb-16">
-          <h1 className="text-4xl text-center font-semibold text-muted-foreground">
+          <h1 className="text-4xl text-center font-medium text-muted-foreground">
             Isi Kuesioner
           </h1>
         </div>
-        <div className="w-full max-w-7xl mx-auto border p-16 rounded-md shadow-md ">
+        <div className="w-full max-w-7xl mx-auto border p-16 rounded-xl shadow-md ">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
@@ -411,17 +420,84 @@ export default function QuestionerForm() {
                   {/* STR Field */}
                   <FormField
                     control={form.control}
-                    name="str"
+                    name="strType"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Apakah anda sudah memiliki STR?</FormLabel>
-                        <FormControl>
-                          <Input placeholder="STR" type="text" {...field} />
-                        </FormControl>
-                        <FormMessage />
+                        <Select onValueChange={field.onChange}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Pilih Status saat ini" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="sudah">Sudah</SelectItem>
+                            <SelectItem value="belum">Belum</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </FormItem>
                     )}
                   />
+
+                  {strType === "sudah" && (
+                    <>
+                      {/* Date of Graduated Field */}
+                      <FormField
+                        control={form.control}
+                        name="strDate"
+                        render={({ field }) => (
+                          <FormItem className="w-full">
+                            <FormLabel>Sebutkan Tangga Penerbiran STR Pertama Kali</FormLabel>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <FormControl>
+                                  <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                      "w-full pl-3 text-left font-normal",
+                                      !field.value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    {field.value ? (
+                                      format(new Date(field.value), "PPP")
+                                    ) : (
+                                      <span>Pilih tanggal penerbitan STR</span>
+                                    )}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                  </Button>
+                                </FormControl>
+                              </PopoverTrigger>
+                              <PopoverContent
+                                className="w-auto p-0"
+                                align="start"
+                              >
+                                <Calendar
+                                  mode="single"
+                                  captionLayout="dropdown-buttons"
+                                  fromYear={1990}
+                                  toYear={2023}
+                                  selected={
+                                    field.value
+                                      ? new Date(field.value)
+                                      : undefined
+                                  }
+                                  onSelect={(date) =>
+                                    field.onChange(date?.toISOString())
+                                  }
+                                  disabled={(date) =>
+                                    date > new Date() ||
+                                    date < new Date("1900-01-01")
+                                  }
+                                  initialFocus
+                                />
+                              </PopoverContent>
+                            </Popover>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </>
+                  )}
 
                   {/* Status Type */}
                   <FormField
@@ -485,7 +561,9 @@ export default function QuestionerForm() {
                               name="dateOfGraduated"
                               render={({ field }) => (
                                 <FormItem className="w-full">
-                                  <FormLabel>Tanggal anda mulai bekerja?</FormLabel>
+                                  <FormLabel>
+                                    Tanggal anda mulai bekerja?
+                                  </FormLabel>
                                   <Popover>
                                     <PopoverTrigger asChild>
                                       <FormControl>
@@ -500,7 +578,9 @@ export default function QuestionerForm() {
                                           {field.value ? (
                                             format(new Date(field.value), "PPP")
                                           ) : (
-                                            <span>Pilih tanggal mulai bekerja</span>
+                                            <span>
+                                              Pilih tanggal mulai bekerja
+                                            </span>
                                           )}
                                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                         </Button>

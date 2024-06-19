@@ -16,21 +16,25 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import Image from "next/image";
 import React, { useState } from "react";
 
 type Props = {};
 
 const page = (props: Props) => {
   return (
-    <form className="p-6 pt-0 grid gap-4 w-full">
-      <div className="py-8">
-        <h1 className="text-gray-500 font-medium text-4xl text-center py-16">
-          Data Kemenkes
-        </h1>
-      </div>
+    <div className="h-full flex justify-center items-center font-medium text-3xl">
       <Container>
-        <div className="py-16 max-w-5xl mx-auto  lex justify-center space-y-2">
-         <Label className="my-2">Pilih Peguruan Tinggi</Label>
+        <div className="pt-16 pb-6">
+          <h1 className="text-4xl text-center text-muted-foreground">
+            Data Kemenkes
+          </h1>
+        </div>
+        <div className="pb-16 pt-6 max-w-6xl mx-auto w-full">
+          {/* <div className="my-2">
+
+          <Label className="my-2">Pilih Peguruan Tinggi</Label>
+          </div>
           <Select>
             <SelectTrigger>
               <SelectValue placeholder="Perguruan Tinggi" />
@@ -42,10 +46,26 @@ const page = (props: Props) => {
               <SelectItem value="perempuan">Universitas Indonesia</SelectItem>
               <SelectItem value="perempuan">Universitas Example</SelectItem>
             </SelectContent>
-          </Select>
+          </Select> */}
+          <div className="relative max-h-[600px] h-[600px] w-full">
+            <Image
+              src="/images/mahasiswaAktif.png"
+              alt=""
+              fill
+              style={{ objectFit: "contain" }}
+            />
+          </div>
+          <div className="relative max-h-[600px] h-[600px] w-full">
+            <Image
+              src="/images/poltekes.png"
+              alt=""
+              fill
+              style={{ objectFit: "contain" }}
+            />
+          </div>
         </div>
       </Container>
-    </form>
+    </div>
   );
 };
 

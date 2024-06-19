@@ -12,10 +12,10 @@ type Props = {};
 
 const page = (props: Props) => {
   return (
-    <div className="h-full flex justify-center items-center font-semibold text-3xl">
+    <div className="h-full flex justify-center items-center font-medium text-3xl">
       <Container>
         <div className="pt-16 pb-6">
-          <h1 className="text-4xl text-center font-semibold text-muted-foreground">
+          <h1 className="text-4xl text-center text-muted-foreground">
             FAQ
           </h1>
         </div>
