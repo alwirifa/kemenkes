@@ -105,7 +105,7 @@ const StatusField = () => {
   // Function to fetch province data
   const fetchProvinceData = async () => {
     try {
-      const response = await axios.get("http://tracerstudy-poltekkeskemenkes.id:8082/v1/get-data?type=province");
+      const response = await axios.get("httpx://tracerstudy-poltekkeskemenkes.id/api/v1/get-data?type=province");
       setProvinceOptions(response.data);
     } catch (error) {
       console.error("Error fetching province data:", error);

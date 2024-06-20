@@ -18,6 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import axios from "axios"
 
 const frameworks = [
   {
@@ -46,6 +47,23 @@ export function ComboboxDemo() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
 
+  const [provinceOptions, setProvinceOptions] = React.useState<string[]>([]);
+
+  // Function to fetch province data
+  const fetchProvinceData = async () => {
+    try {
+      const response = await axios.get("http://tracerstudy-poltekkeskemenkes.id:8082/v1/get-data?type=province");
+      setProvinceOptions(response.data);
+    } catch (error) {
+      console.error("Error fetching province data:", error);
+    }
+  };
+
+  // Fetch data once when the component mounts
+  if (provinceOptions.length === 0) {
+    fetchProvinceData();
+  }
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -61,7 +79,7 @@ export function ComboboxDemo() {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-full p-0">
         <Command>
           <CommandInput placeholder="Search framework..." />
           <CommandList>

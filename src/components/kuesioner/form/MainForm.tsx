@@ -16,17 +16,7 @@ import { useRouter } from "next/navigation";
 const MainForm: React.FC = () => {
   const { form } = useFormContext();
 
-  // const handleSubmit: SubmitHandler<FormData> = async (values) => {
-  //   try {
-  //     const response = await axios.post(
-  //       "http://tracerstudy-poltekkeskemenkes.id:8082/v1/trace-study",
-  //       values
-  //     );
-  //     console.log("Response:", response.data);
-  //   } catch (error) {
-  //     console.error("Error submitting form:", error);
-  //   }
-  // };
+ 
   const router = useRouter();
 
   const handleSubmit: SubmitHandler<FormData> = async (values) => {

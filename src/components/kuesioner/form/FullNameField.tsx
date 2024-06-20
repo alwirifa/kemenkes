@@ -27,6 +27,7 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
+import { ComboboxDemo } from "./tes";
 
 const FullNameField = () => {
   const { form } = useFormContext();
@@ -35,7 +36,7 @@ const FullNameField = () => {
   // Function to fetch province data
   const fetchProvinceData = async () => {
     try {
-      const response = await axios.get("http://tracerstudy-poltekkeskemenkes.id:8082/v1/get-data?type=province");
+      const response = await axios.get("https://tracerstudy-poltekkeskemenkes.id/api/v1/get-data?type=province");
       setProvinceOptions(response.data);
     } catch (error) {
       console.error("Error fetching province data:", error);
@@ -55,7 +56,13 @@ const FullNameField = () => {
   return (
     <Form {...form}>
       <div className="w-full flex flex-col gap-4">
+
+
+      {/* <ComboboxDemo/> */}
+
         <div className="lg:flex gap-6 w-full">
+
+          
           {/* Full Name Field */}
           <FormField
             control={form.control}
