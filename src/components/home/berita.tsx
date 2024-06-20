@@ -56,10 +56,10 @@ const Berita: React.FC = () => {
           <h1 className="text-4xl text-center text-muted-foreground">
             Berita Terkini
           </h1>
-          <p className="text-gray-600 mb-12 font-normal mt-2 text-center text-[16px] text-muted-foreground max-w-5xl">
+          {/* <p className="text-gray-600 mb-12 font-normal mt-2 text-center text-[16px] text-muted-foreground max-w-5xl">
             Update terbaru: Pastikan PT anda telah melaporkan data Tracer Studi
             pelaksanaan tahun 2019, untuk memenuhi data pemeringkatan tahun 2020
-          </p>
+          </p> */}
           <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
             {news.map((item, index) => (
               <Dialog key={index}>

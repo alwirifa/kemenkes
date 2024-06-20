@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useFormContext } from "./FormContext";
 import {
   Form,
@@ -47,31 +47,38 @@ const GenderField: React.FC = () => {
   const [prodiOptions, setProdiOptions] = useState<Prodi[]>([]);
   const [selectedPoltekkesId, setSelectedPoltekkesId] = useState<number | null>(null);
 
-  useEffect(() => {
-    axios
-      .get<Poltekkes[]>("http://tracerstudy-poltekkeskemenkes.id:8082/v1/get-data?type=poltekkes")
-      .then((response) => {
-        setPoltekkesOptions(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching poltekkes data:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (selectedPoltekkesId !== null) {
-      axios
-        .get<Prodi[]>(
-          `http://tracerstudy-poltekkeskemenkes.id:8082/v1/get-data?type=prodi&poltekkes_id=${selectedPoltekkesId}`
-        )
-        .then((response) => {
-          setProdiOptions(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching prodi data:", error);
-        });
+  // Function to fetch Poltekkes data
+  const fetchPoltekkesData = async () => {
+    try {
+      const response = await axios.get(`https://tracerstudy-poltekkeskemenkes.id/api/v1/get-data?type=poltekkes`);
+      setPoltekkesOptions(response.data);
+    } catch (error) {
+      console.error("Error fetching poltekkes data:", error);
     }
-  }, [selectedPoltekkesId]);
+  };
+
+  // Function to fetch Prodi data based on selected Poltekkes ID
+  const fetchProdiData = async (poltekkesId: number) => {
+    try {
+      const response = await axios.get<Prodi[]>(
+        `https://tracerstudy-poltekkeskemenkes.id/api/v1/get-data?type=prodi&poltekkes_id=${poltekkesId}`
+      );
+      setProdiOptions(response.data);
+    } catch (error) {
+      console.error("Error fetching prodi data:", error);
+    }
+  };
+
+  // Fetch Poltekkes data on component mount
+  if (poltekkesOptions.length === 0) {
+    fetchPoltekkesData();
+  }
+
+  // Handler for when a Poltekkes is selected
+  const handlePoltekkesChange = (poltekkesId: number) => {
+    setSelectedPoltekkesId(poltekkesId);
+    fetchProdiData(poltekkesId);
+  };
 
   return (
     <Form {...form}>
@@ -86,7 +93,7 @@ const GenderField: React.FC = () => {
                 onValueChange={(value) => {
                   const id = parseInt(value, 10);
                   field.onChange(id);
-                  setSelectedPoltekkesId(id);
+                  handlePoltekkesChange(id);
                 }}
               >
                 <FormControl>
@@ -96,7 +103,10 @@ const GenderField: React.FC = () => {
                 </FormControl>
                 <SelectContent>
                   {poltekkesOptions.map((poltekkes) => (
-                    <SelectItem key={poltekkes.id_poltekkes.toString()} value={poltekkes.id_poltekkes.toString()}>
+                    <SelectItem
+                      key={poltekkes.id_poltekkes.toString()}
+                      value={poltekkes.id_poltekkes.toString()}
+                    >
                       {poltekkes.nama_poltekkes}
                     </SelectItem>
                   ))}
@@ -126,7 +136,10 @@ const GenderField: React.FC = () => {
                   </FormControl>
                   <SelectContent>
                     {prodiOptions.map((prodi) => (
-                      <SelectItem key={prodi.id_prodi.toString()} value={prodi.id_prodi.toString()}>
+                      <SelectItem
+                        key={prodi.id_prodi.toString()}
+                        value={prodi.id_prodi.toString()}
+                      >
                         {prodi.nama_prodi}
                       </SelectItem>
                     ))}
@@ -144,7 +157,7 @@ const GenderField: React.FC = () => {
           name="tanggal_lulus"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Tanggal Lulus</FormLabel>
+              <FormLabel>Tanggal Lulus (Sesuai Ijazah)</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>

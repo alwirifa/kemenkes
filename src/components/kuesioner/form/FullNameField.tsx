@@ -30,28 +30,28 @@ import { Calendar } from "@/components/ui/calendar";
 
 const FullNameField = () => {
   const { form } = useFormContext();
-  const [provinceOptions, setProvinceOptions] = useState([]);
+  const [provinceOptions, setProvinceOptions] = useState<string[]>([]);
 
+  // Function to fetch province data
+  const fetchProvinceData = async () => {
+    try {
+      const response = await axios.get("http://tracerstudy-poltekkeskemenkes.id:8082/v1/get-data?type=province");
+      setProvinceOptions(response.data);
+    } catch (error) {
+      console.error("Error fetching province data:", error);
+    }
+  };
 
-  useEffect(() => {
-    axios
-      .get("http://tracerstudy-poltekkeskemenkes.id:8082/v1/get-data?type=province")
-      .then((response) => {
-        // Assuming response.data is an array of provinces like ["Jawa Barat", "DKI Jakarta", ...]
-        const dataProvince = response.data
-        setProvinceOptions(dataProvince);
-       
-
-      })
-      .catch((error) => {
-        console.error("Error fetching province data:", error);
-      });
-  }, []); 
-
-
-  if (!provinceOptions) {
-    return 'loading..'
+  // Fetch data once when the component mounts
+  if (provinceOptions.length === 0) {
+    fetchProvinceData();
   }
+
+  const handleDateChange = (field: any, date: Date | undefined) => {
+    const formattedDate = date ? format(date, "yyyy-MM-dd") : "";
+    field.onChange(formattedDate);
+  };
+
   return (
     <Form {...form}>
       <div className="w-full flex flex-col gap-4">
@@ -129,7 +129,9 @@ const FullNameField = () => {
                       fromYear={1990}
                       toYear={2023}
                       selected={field.value ? new Date(field.value) : undefined}
-                      onSelect={(date) => field.onChange(date?.toISOString())}
+                      onSelect={(date) =>
+                        handleDateChange(field, date)
+                      }
                       disabled={(date) =>
                         date > new Date() || date < new Date("1900-01-01")
                       }

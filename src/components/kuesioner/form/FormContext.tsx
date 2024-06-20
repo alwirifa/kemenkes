@@ -4,17 +4,16 @@ import React, { createContext, useContext, useState } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-
 const formSchema = z.object({
-  nama_lengkap: z.string().nonempty("Nama Lengkap is required"),
-  jenis_kelamin: z.string().nonempty("Jenis Kelamin is required"),
-  tanggal_lahir: z.string().nonempty("Tanggal Lahir is required"),
-  provinsi_domisili: z.string().nonempty("Provinsi domisili is required"),
-  nomor_handphone: z.string().regex(/^\d+$/, "Phone number required"),
+  nama_lengkap: z.string().min(1, "Nama Lengkap harus diisi"),
+  jenis_kelamin: z.string().min(1, "Jenis Kelamin harus diisi"),
+  tanggal_lahir: z.string().min(1, "Tanggal Lahir harus diisi"),
+  provinsi_domisili: z.string().min(1, "Provinsi domisili harus diisi"),
+  nomor_handphone: z.string().regex(/^\d+$/, "Nomor phone harus diisi"),
   email: z.string().email("Invalid email address"),
-  poltekkes_id: z.number().int(),
-  prodi_id: z.number().int(),
-  tanggal_lulus: z.string(),
+  poltekkes_id: z.number().int().min(1, "Poltekkes harus diisi"),
+  prodi_id: z.number().int().min(1, "Prodi Kemenkes harus diisi"),
+  tanggal_lulus: z.string().min(1, "Tanggal lulus harus diisi"),
   tanggal_str: z.string(),
   status_kerja: z.string(),
   tanggal_kerja: z.string(),
@@ -31,8 +30,10 @@ const formSchema = z.object({
   prodi_ditempuh: z.string(),
   kampus_ditempuh: z.string(),
   sosial_media: z.string(),
+  sumber_survey: z.string(),
+  sumber_survey_nama: z.string(),
+  sumber_survey_no_hp: z.string()
 });
-
 
 
 export type FormData = z.infer<typeof formSchema>;
@@ -63,6 +64,9 @@ const initialData: FormData = {
   prodi_ditempuh: '',
   kampus_ditempuh: '',
   sosial_media: '',
+  sumber_survey: '',
+  sumber_survey_nama: '',
+  sumber_survey_no_hp: '',
 };
 
 

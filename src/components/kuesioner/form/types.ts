@@ -24,4 +24,7 @@ export type FormData = {
   prodi_ditempuh: string;
   kampus_ditempuh: string;
   sosial_media: string;
+  sumber_survey: string;
+  sumber_survey_nama: string;
+  sumber_survey_no_hp: string;
 };
