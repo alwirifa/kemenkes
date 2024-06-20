@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import React from "react";
 import TentangKemenkes from "@/components/home/TentangKemenkes";
 import Welcome from "@/components/home/Welcome";

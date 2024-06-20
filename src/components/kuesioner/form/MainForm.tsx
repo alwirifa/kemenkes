@@ -10,7 +10,8 @@ import { SubmitHandler } from "react-hook-form"; // Import SubmitHandler from yo
 import { FormData } from "@/components/kuesioner/form/types"; // Import your FormData type
 import GenderField from "./GenderField";
 import SocialField from "./SocialField";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const MainForm: React.FC = () => {
   const { form } = useFormContext();
@@ -27,33 +28,27 @@ const MainForm: React.FC = () => {
   //   }
   // };
 
+  const router = useRouter();
   const handleSubmit: SubmitHandler<FormData> = async (values) => {
-    try {
-      // Show loading toast
-      const loadingToastId = toast.loading('Submitting form...');
-  
-      // Make API call
-      const response = await axios.post(
-        'http://tracerstudy-poltekkeskemenkes.id:8082/v1/trace-study',
-        values
-      );
-  
-      // Close loading toast
-      toast.dismiss(loadingToastId);
-  
-      // Show success toast
-      toast.success('Form submitted successfully');
-  
-      console.log('Response:', response.data);
-    } catch (error) {
-      // Close loading toast (in case it's still open)
-      toast.dismiss();
-  
-      // Show error toast
-      toast.error('Error submitting form');
-  
-      console.error('Error submitting form:', error);
-    }
+
+    toast
+      .promise(
+        axios.post(
+          "http://tracerstudy-poltekkeskemenkes.id:8082/v1/trace-study",
+          values
+        ),
+        {
+          loading: "Submitting form...",
+          success: "Form submitted successfully",
+          error: "Error submitting form",
+        }
+      )
+      .then(() => {
+        router.push("/");
+      })
+      .catch((error) => {
+        throw error;
+      });
   };
 
   const [listForm, setListForm] = useState(false);
@@ -66,10 +61,10 @@ const MainForm: React.FC = () => {
       <Container>
         <div className="pb-16">
           <h1 className="text-4xl text-center font-medium text-muted-foreground">
-          Tracer Study Lulusan Poltekkes Kemenkes
+            Tracer Study Lulusan Poltekkes Kemenkes
           </h1>
         </div>
-        <div className="w-full max-w-7xl mx-auto border p-16 rounded-xl shadow-md">
+        <div className="w-full max-w-7xl mx-auto border lg:p-16 p-4 rounded-xl shadow-md">
           <Form {...form}>
             <form className="w-full flex flex-col gap-4">
               <div className="flex flex-col gap-4 w-full">
@@ -98,7 +93,7 @@ const MainForm: React.FC = () => {
                     listForm ? "flex" : "hidden"
                   }`}
                 >
-                  Kuesioner 
+                  Kuesioner
                 </p>
                 {listForm && (
                   <>
@@ -109,21 +104,17 @@ const MainForm: React.FC = () => {
                 )}
               </div>
 
-
-<div className="w-full flex justify-center">
-
-              <div
-                className={`max-w-max w-full ${
-                  listForm ? "flex" : "hidden"
-                }`}
-              >
-                <Button
-                  className="w-full mt-4"
-                  onClick={form.handleSubmit(handleSubmit)}
+              <div className="w-full flex justify-center">
+                <div
+                  className={`max-w-max w-full ${listForm ? "flex" : "hidden"}`}
                 >
-                  Submit
-                </Button>
-                  </div>
+                  <Button
+                    className="w-full mt-4"
+                    onClick={form.handleSubmit(handleSubmit)}
+                  >
+                    Submit
+                  </Button>
+                </div>
               </div>
             </form>
           </Form>

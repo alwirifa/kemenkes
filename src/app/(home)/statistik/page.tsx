@@ -1,23 +1,8 @@
 "use client";
 
 import Container from "@/components/home/Container";
-import {
-  FormControl,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Label } from "@/components/ui/label";
-
-import {
-  Select,
-  SelectValue,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 
 type Props = {};
 
