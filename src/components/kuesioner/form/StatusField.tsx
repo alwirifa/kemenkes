@@ -68,7 +68,7 @@ const StatusField = () => {
       setInstansiValue("instansi_tempat_kerja");
     } else {
       setInstansi(false);
-      setInstansiValue(value);
+      form.setValue("instansi_tempat_kerja", value);
     }
   };
 
@@ -79,10 +79,11 @@ const StatusField = () => {
   const handleValueSkInternasionalChange = (value: string) => {
     if (value === "skyanglain") {
       setSkInternasional(true);
+      // Clear any previous value or set initial state for "skyanglain"
       setSkInternasionalValue("sk_internasional");
     } else {
       setSkInternasional(false);
-      setSkInternasionalValue(value);
+      form.setValue("sk_internasional", value);
     }
   };
 
@@ -96,7 +97,7 @@ const StatusField = () => {
       setSertifikatBahasaValue("sertifikat_bahasa");
     } else {
       setSertifikatBahasa(false);
-      setSertifikatBahasaValue(value);
+      form.setValue("sertifikat_bahasa", value);
     }
   };
 
@@ -105,7 +106,9 @@ const StatusField = () => {
   // Function to fetch province data
   const fetchProvinceData = async () => {
     try {
-      const response = await axios.get("httpx://tracerstudy-poltekkeskemenkes.id/api/v1/get-data?type=province");
+      const response = await axios.get(
+        "https://tracerstudy-poltekkeskemenkes.id/api/v1/get-data?type=province"
+      );
       setProvinceOptions(response.data);
     } catch (error) {
       console.error("Error fetching province data:", error);
@@ -116,8 +119,6 @@ const StatusField = () => {
   if (provinceOptions.length === 0) {
     fetchProvinceData();
   }
-
-
 
   return (
     <Form {...form}>
@@ -152,27 +153,6 @@ const StatusField = () => {
         {statusType === "bekerja" && (
           <>
             <div className="lg:flex gap-6 items-center">
-              {/* <FormField
-                control={form.control}
-                name="negara_bekerja"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Dimana Anda Bekerja</FormLabel>
-                    <Select onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Pilih lokasi bekerja" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="indonesia">Indonesia</SelectItem>
-                        <SelectItem value="luarNegeri">Luar Negeri</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
               <div className="w-full space-y-2">
                 <FormLabel>Dimanakah anda bekerja?</FormLabel>
                 <Select onValueChange={handleLokasiChange} value={lokasi}>
@@ -227,7 +207,7 @@ const StatusField = () => {
                           mode="single"
                           captionLayout="dropdown-buttons"
                           fromYear={1990}
-                          toYear={2023}
+                          toYear={2040}
                           selected={
                             field.value ? new Date(field.value) : undefined
                           }
@@ -375,28 +355,6 @@ const StatusField = () => {
                   control={form.control}
                   name="negara_kerja"
                   render={({ field }) => (
-                    // <FormItem>
-                    //   <FormLabel>Di Negara mana anda bekerja?</FormLabel>
-                    //   <Select onValueChange={field.onChange}>
-                    //     <FormControl>
-                    //       <SelectTrigger>
-                    //         <SelectValue placeholder="Pilih Negara" />
-                    //       </SelectTrigger>
-                    //     </FormControl>
-                    //     <SelectContent>
-                    //       <SelectItem value="Belanda">Belanda</SelectItem>
-                    //       <SelectItem value="Jerman">Jerman</SelectItem>
-                    //       <SelectItem value="Jepang">Jepang</SelectItem>
-                    //       <SelectItem value="Arab Saudi">Arab Saudi</SelectItem>
-                    //       <SelectItem value="Australia">Australia</SelectItem>
-                    //       <SelectItem value="Singapura">Singapura</SelectItem>
-                    //       <SelectItem value="TEUINGBAHASANAON">
-                    //         Yang lain
-                    //       </SelectItem>
-                    //     </SelectContent>
-                    //   </Select>
-                    //   <FormMessage />
-                    // </FormItem>
                     <FormItem>
                       <FormLabel>Di Negara mana anda bekerja?</FormLabel>
                       <FormControl>
@@ -477,7 +435,7 @@ const StatusField = () => {
                     Sebutkan sertifikat kompetensi standar internasional yang
                     anda miliki
                   </Label>
-                  <div className="flex flex-col   gap-2 lg:gap-2 items-end">
+                  <div className="flex flex-col gap-2 lg:gap-2 items-end">
                     <FormField
                       control={form.control}
                       name="sk_internasional"
@@ -485,6 +443,7 @@ const StatusField = () => {
                         <FormItem className="w-full">
                           <Select
                             onValueChange={handleValueSkInternasionalChange}
+                            value={field.value} // Bind the select value to form state
                           >
                             <FormControl>
                               <SelectTrigger>
@@ -601,14 +560,9 @@ const StatusField = () => {
                   name="sertifikat_bahasa"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>
-                        Level Kemampuan Bahasa Asing Anda.
-                      </FormLabel>
+                      <FormLabel>Level Kemampuan Bahasa Asing Anda.</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Contoh: B-1/N2/C-1"
-                          {...field}
-                        />
+                        <Input placeholder="Contoh: B-1/N2/C-1" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

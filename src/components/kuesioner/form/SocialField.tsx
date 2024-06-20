@@ -27,8 +27,9 @@ const SocialField = () => {
   const handleValueSkInternasionalChange = (value: string) => {
     setShowKeluargaFields(value === "keluarga");
     setSumberSurvey("keluarga");
-    handleFormDataChange("sk_internasional", value); // Update form data outside react-hook-form
+    handleFormDataChange("sumber_survey", value); 
   };
+
 
   return (
     <Form {...form}>
@@ -59,7 +60,7 @@ const SocialField = () => {
             <div className="flex flex-col  gap-2 lg:gap-6 items-end">
               <FormField
                 control={form.control}
-                name="sk_internasional"
+                name="sumber_survey"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <Select onValueChange={handleValueSkInternasionalChange}>
@@ -72,8 +73,8 @@ const SocialField = () => {
                         <SelectItem value="keluarga">
                           Keluarga/Kerabat/Teman
                         </SelectItem>
-                        <SelectItem value="Website">Website</SelectItem>
-                        <SelectItem value="Social Media">
+                        <SelectItem value="website">Website</SelectItem>
+                        <SelectItem value="social">
                           Social Media
                         </SelectItem>
                       </SelectContent>

@@ -45,12 +45,16 @@ const GenderField: React.FC = () => {
 
   const [poltekkesOptions, setPoltekkesOptions] = useState<Poltekkes[]>([]);
   const [prodiOptions, setProdiOptions] = useState<Prodi[]>([]);
-  const [selectedPoltekkesId, setSelectedPoltekkesId] = useState<number | null>(null);
+  const [selectedPoltekkesId, setSelectedPoltekkesId] = useState<number | null>(
+    null
+  );
 
   // Function to fetch Poltekkes data
   const fetchPoltekkesData = async () => {
     try {
-      const response = await axios.get(`https://tracerstudy-poltekkeskemenkes.id/api/v1/get-data?type=poltekkes`);
+      const response = await axios.get(
+        `https://tracerstudy-poltekkeskemenkes.id/api/v1/get-data?type=poltekkes`
+      );
       setPoltekkesOptions(response.data);
     } catch (error) {
       console.error("Error fetching poltekkes data:", error);
@@ -78,6 +82,11 @@ const GenderField: React.FC = () => {
   const handlePoltekkesChange = (poltekkesId: number) => {
     setSelectedPoltekkesId(poltekkesId);
     fetchProdiData(poltekkesId);
+  };
+
+  const handleDateChange = (field: any, date: Date | undefined) => {
+    const formattedDate = date ? format(date, "yyyy-MM-dd") : "";
+    field.onChange(formattedDate);
   };
 
   return (
@@ -182,9 +191,9 @@ const GenderField: React.FC = () => {
                     mode="single"
                     captionLayout="dropdown-buttons"
                     fromYear={1990}
-                    toYear={2023}
+                    toYear={2040}
                     selected={field.value ? new Date(field.value) : undefined}
-                    onSelect={(date) => field.onChange(date?.toISOString())}
+                    onSelect={(date) => handleDateChange(field, date)}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")
                     }
@@ -248,7 +257,7 @@ const GenderField: React.FC = () => {
                       mode="single"
                       captionLayout="dropdown-buttons"
                       fromYear={1990}
-                      toYear={2023}
+                      toYear={2040}
                       selected={field.value ? new Date(field.value) : undefined}
                       onSelect={(date) => field.onChange(date?.toISOString())}
                       disabled={(date) =>

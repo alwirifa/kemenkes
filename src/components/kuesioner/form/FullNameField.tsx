@@ -27,7 +27,7 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
-import { ComboboxDemo } from "./tes";
+
 
 const FullNameField = () => {
   const { form } = useFormContext();
@@ -57,8 +57,6 @@ const FullNameField = () => {
     <Form {...form}>
       <div className="w-full flex flex-col gap-4">
 
-
-      {/* <ComboboxDemo/> */}
 
         <div className="lg:flex gap-6 w-full">
 
@@ -134,7 +132,7 @@ const FullNameField = () => {
                       mode="single"
                       captionLayout="dropdown-buttons"
                       fromYear={1990}
-                      toYear={2023}
+                      toYear={2040}
                       selected={field.value ? new Date(field.value) : undefined}
                       onSelect={(date) =>
                         handleDateChange(field, date)
@@ -190,7 +188,7 @@ const FullNameField = () => {
                 <FormControl>
                   <Input 
                     placeholder="+62 |" 
-                    type="text" 
+                    type="number" 
                     {...field}
                   />
                 </FormControl>
