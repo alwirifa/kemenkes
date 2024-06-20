@@ -55,7 +55,7 @@ const FullNameField = () => {
   return (
     <Form {...form}>
       <div className="w-full flex flex-col gap-4">
-        <div className="flex gap-6 w-full">
+        <div className="lg:flex gap-6 w-full">
           {/* Full Name Field */}
           <FormField
             control={form.control}
@@ -95,7 +95,7 @@ const FullNameField = () => {
           />
         </div>
 
-        <div className="flex gap-6 w-full">
+        <div className="lg:flex gap-6 w-full">
           {/* Date of Birth Field */}
           <FormField
             control={form.control}
@@ -170,7 +170,7 @@ const FullNameField = () => {
           />
         </div>
 
-        <div className="flex gap-6 w-full">
+        <div className="lg:flex gap-6 w-full">
           {/* Phone Number Field */}
           <FormField
             control={form.control}

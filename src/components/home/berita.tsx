@@ -52,7 +52,7 @@ const Berita: React.FC = () => {
   return (
     <div className="h-full flex justify-center items-center font-medium text-3xl">
       <Container>
-        <div className="p-16 w-full flex flex-col items-center justify-center">
+        <div className="lg:p-16 w-full flex flex-col items-center justify-center">
           <h1 className="text-4xl text-center text-muted-foreground">
             Berita Terkini
           </h1>
@@ -73,7 +73,7 @@ const Berita: React.FC = () => {
                   <DialogHeader>
                     <DialogTitle>Image Detail</DialogTitle>
                   </DialogHeader>
-                  <div className="relative h-[500px]">
+                  <div className="relative h-[500px] max-w-[500px] w-full">
                     <Image
                       src={modalImage}
                       alt="Modal Image"

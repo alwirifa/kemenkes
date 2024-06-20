@@ -84,7 +84,7 @@ const StatusField = () => {
         {/* Lokasi Bekerja */}
         {statusType === "bekerja" && (
           <>
-            <div className="flex gap-6 items-center">
+            <div className="lg:flex gap-6 items-center">
               {/* <FormField
                 control={form.control}
                 name="negara_bekerja"

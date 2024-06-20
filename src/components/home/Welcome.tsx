@@ -20,7 +20,7 @@ const Welcome = () => {
             href={"/kuesioner"}
             className="text-sm px-4 py-3 font-medium bg-primary hover:bg-primary/80 rounded-md text-white shadow-xl"
           >
-            Isi Kuesioner
+            Tracer Study Lulusan Poltekkes Kemenkes
           </Link>
         </div>
       </section>

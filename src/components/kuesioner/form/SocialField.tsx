@@ -18,7 +18,7 @@ const SocialField = () => {
     <Form {...form}>
       <div className="">
         {/* <Label>Sebutkan akun media sosial yang anda miliki</Label> */}
-        <div className="w-full flex gap-4">
+        <div className="w-full lg:flex gap-4">
           <FormField
             control={form.control}
             name="sosial_media"

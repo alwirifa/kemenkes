@@ -21,7 +21,7 @@ import React, { useState } from "react";
 
 type Props = {};
 
-const page = (props: Props) => {
+const Page = (props: Props) => {
   return (
     <div className="h-full flex justify-center items-center font-medium text-3xl">
       <Container>
@@ -31,36 +31,22 @@ const page = (props: Props) => {
           </h1>
         </div>
         <div className="pb-16 pt-6 max-w-6xl mx-auto w-full">
-          {/* <div className="my-2">
-
-          <Label className="my-2">Pilih Peguruan Tinggi</Label>
-          </div>
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Perguruan Tinggi" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="laki-laki">
-                Universitas Pendidikan Indonesia
-              </SelectItem>
-              <SelectItem value="perempuan">Universitas Indonesia</SelectItem>
-              <SelectItem value="perempuan">Universitas Example</SelectItem>
-            </SelectContent>
-          </Select> */}
-          <div className="relative max-h-[600px] h-[600px] w-full">
+          <div className="relative max-h-[200px] lg:max-h-[600px] h-[600px] w-full">
             <Image
               src="/images/mahasiswaAktif.png"
               alt=""
               fill
               style={{ objectFit: "contain" }}
+              className="sm:max-h-[300px] md:max-h-[400px] lg:max-h-[500px] xl:max-h-[600px]"
             />
           </div>
-          <div className="relative max-h-[600px] h-[600px] w-full">
+          <div className="relative max-h-[200px] lg:max-h-[600px] h-[600px] w-full mt-6">
             <Image
               src="/images/poltekes.png"
               alt=""
               fill
               style={{ objectFit: "contain" }}
+              className="sm:max-h-[300px] md:max-h-[400px] lg:max-h-[500px] xl:max-h-[600px]"
             />
           </div>
         </div>
@@ -69,4 +55,4 @@ const page = (props: Props) => {
   );
 };
 
-export default page;
+export default Page;

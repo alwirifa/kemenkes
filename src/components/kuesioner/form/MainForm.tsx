@@ -66,7 +66,7 @@ const MainForm: React.FC = () => {
       <Container>
         <div className="pb-16">
           <h1 className="text-4xl text-center font-medium text-muted-foreground">
-            Isi Kuesioner
+          Tracer Study Lulusan Poltekkes Kemenkes
           </h1>
         </div>
         <div className="w-full max-w-7xl mx-auto border p-16 rounded-xl shadow-md">
@@ -109,8 +109,11 @@ const MainForm: React.FC = () => {
                 )}
               </div>
 
+
+<div className="w-full flex justify-center">
+
               <div
-                className={`flex justify-center w-full ${
+                className={`max-w-max w-full ${
                   listForm ? "flex" : "hidden"
                 }`}
               >
@@ -120,6 +123,7 @@ const MainForm: React.FC = () => {
                 >
                   Submit
                 </Button>
+                  </div>
               </div>
             </form>
           </Form>
