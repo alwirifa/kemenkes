@@ -68,7 +68,9 @@ const Status = (props: Props) => {
         render={({ field }) => {
           return (
             <FormItem>
-              <FormLabel>Status Saat ini?</FormLabel>
+              <FormLabel>
+                Status Saat ini? (6 bulan setelah lulus dari Poltekkes Kemenkes)
+              </FormLabel>
               <Select onValueChange={field.onChange}>
                 <FormControl>
                   <SelectTrigger>
@@ -109,6 +111,7 @@ const Status = (props: Props) => {
                     <SelectItem value="S1">S1</SelectItem>
                     <SelectItem value="S2">S2</SelectItem>
                     <SelectItem value="S3">S3</SelectItem>
+                    <SelectItem value="Profesi">Profesi</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -151,6 +154,20 @@ const Status = (props: Props) => {
 
       {statusKerja === "Bekerja" && (
         <>
+          {/* <FormField
+            control={form.control}
+            name="profesi"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Profesi</FormLabel>
+                <FormControl>
+                  <Input placeholder="Profesi saat ini" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          /> */}
+
           <div className="lg:flex gap-6 ">
             <FormField
               control={form.control}

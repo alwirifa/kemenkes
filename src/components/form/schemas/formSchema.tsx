@@ -18,6 +18,7 @@ export const formSchema = z
       message: "STR harus dipilih",
     }),
     tanggal_str: z.string().optional(),
+    // profesi: z.string().optional(),
 
     status_kerja: z
       .enum(["Bekerja", "Melanjutkan Pendidikan", "Belum Bekerja", ""])
@@ -90,6 +91,8 @@ export const formSchema = z
     sumber_survey_nama: z.string(),
     sumber_survey_no_hp: z.string(),
   })
+
+
 
   // ==========================================================
 

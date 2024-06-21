@@ -21,30 +21,31 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useState } from "react";
+import { ComboboxDemo } from "./combobox";
 
 export default function FormKuesioner() {
   const { form } = useFormContext();
   const router = useRouter();
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    toast
-      .promise(
-        axios.post(
-          `https://tracerstudy-poltekkeskemenkes.id/api/v1/trace-study`,
-          values
-        ),
-        {
-          loading: "Submitting form...",
-          success: "Form submitted successfully",
-          error: "Error submitting form",
-        }
-      )
-      .then(() => {
-        router.push("/");
-      })
-      .catch((error) => {
-        throw error;
-      });
+    // toast
+    //   .promise(
+    //     axios.post(
+    //       `https://tracerstudy-poltekkeskemenkes.id/api/v1/trace-study`,
+    //       values
+    //     ),
+    //     {
+    //       loading: "Submitting form...",
+    //       success: "Form submitted successfully",
+    //       error: "Error submitting form",
+    //     }
+    //   )
+    //   .then(() => {
+    //     router.push("/");
+    //   })
+    //   .catch((error) => {
+    //     throw error;
+    //   });
     console.log({ values });
   };
 
@@ -72,14 +73,14 @@ export default function FormKuesioner() {
               >
                 Identitas
               </p>
-
               <div className="lg:flex gap-6 ">
                 <Name />
                 <JenisKelamin />
               </div>
               <div className=":lg:flex gap-6 ">
                 <TanggalLahir />
-                <ProvinsiDomisili />
+                {/* <ComboboxDemo /> */}
+                <ProvinsiDomisili/>
               </div>
               <div className="lg:flex gap-6 ">
                 <NomorHandphone />

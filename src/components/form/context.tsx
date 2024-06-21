@@ -24,6 +24,7 @@ const initialData: FormData = {
   tanggal_str: "",
 
   status_kerja: "",
+  // profesi: "",
 
   // luar negeri
   lokasi_kerja: "",
