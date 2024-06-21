@@ -262,9 +262,7 @@ const StatusField = () => {
                             <SelectItem value="Non Fasyankes">
                               Non Fasyankes
                             </SelectItem>
-                            <SelectItem value="yanglain">
-                              Yang lain ...
-                            </SelectItem>
+                           
                           </SelectContent>
                         </Select>
                         <FormMessage />

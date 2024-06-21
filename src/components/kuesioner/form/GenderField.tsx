@@ -28,6 +28,7 @@ import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import axios from "axios";
+import { Input } from "@/components/ui/input";
 
 interface Poltekkes {
   id_poltekkes: number;
@@ -159,6 +160,20 @@ const GenderField: React.FC = () => {
             )}
           />
         )}
+
+        <FormField
+          control={form.control}
+          name="nim"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>NIM</FormLabel>
+              <FormControl>
+                <Input placeholder="NIM" type="text" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         {/* Date of Graduated Field */}
         <FormField

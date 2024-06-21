@@ -1,6 +1,7 @@
 export type FormData = {
   nama_lengkap: string;
   jenis_kelamin: string;
+  nim: string;
   tanggal_lahir: string;
   provinsi_domisili: string;
   nomor_handphone: string;

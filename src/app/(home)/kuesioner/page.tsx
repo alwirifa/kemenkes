@@ -1,7 +1,9 @@
 "use client";
 
-import { FormProvider } from "@/components/kuesioner/form/FormContext";
+
 import MainForm from "@/components/kuesioner/form/MainForm";
+import { FormProvider } from "@/components/kuesioner/form/FormContext";
+import FormKuesioner from "@/components/form/form";
 import React from "react";
 
 type Props = {};
@@ -13,6 +15,9 @@ const page = (props: Props) => {
       <FormProvider>
         <MainForm />
       </FormProvider>
+      {/* <FormProvider>
+        <FormKuesioner />
+      </FormProvider> */}
       {/* <Home/> */}
     </div>
   );
