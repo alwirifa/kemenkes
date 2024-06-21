@@ -53,6 +53,8 @@ export const formSchema = z
       ])
       .optional(),
     sertifikat_bahasa: z.string().optional(),
+    
+    sertifikat_bahasa_kemampuan: z.string().optional(),
     tahun_mulai_kerja: z.string().optional(),
     skema_penempatan_ln: z.string().optional(),
     nama_tempat_kerja: z.string().optional(),
@@ -92,6 +94,18 @@ export const formSchema = z
   // ==========================================================
 
   // Sumber Survey
+  .refine(
+    (data) => {
+      if (data.sumber_survey_type === "") {
+        return !!data.sumber_survey_type;
+      }
+      return true;
+    },
+    {
+      message: "Sumber survey  tidak boleh kosong",
+      path: ["sumber_survey_type"],
+    }
+  )
   .refine(
     (data) => {
       if (data.sumber_survey_type === "Keluarga/Kerabat/Teman") {
@@ -359,6 +373,21 @@ export const formSchema = z
         data.status_kerja === "Bekerja" &&
         data.lokasi_kerja === "Luar Negeri"
       ) {
+        return !!data.sertifikat_bahasa_kemampuan;
+      }
+      return true;
+    },
+    {
+      message: "sertifikat bahasa kemampuan perlu diisi",
+      path: ["sertifikat_bahasa_kemampuan"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (
+        data.status_kerja === "Bekerja" &&
+        data.lokasi_kerja === "Luar Negeri"
+      ) {
         return !!data.sk_internasional_type;
       }
       return true;
@@ -425,6 +454,7 @@ export const formSchema = z
   })
 
   // SERTIFIKAT BAHASA
+
   .refine(
     (data) => {
       if (data.sertifikat_bahasa_type === "Bahasa yang lain") {
@@ -437,6 +467,7 @@ export const formSchema = z
       path: ["sertifikat_bahasa"],
     }
   )
+
   .refine((data) => {
     if (
       data.status_kerja === "Bekerja" &&
@@ -464,7 +495,15 @@ export const formSchema = z
       }
     }
     return true;
-  });
+  })
+  .refine(
+    (data) => {
+      if (data.sertifikat_bahasa_type) {
+        data.sertifikat_bahasa = `${data.sertifikat_bahasa}-${data.sertifikat_bahasa_kemampuan}`;
+      }
+      return true;
+    },
+  );
 // .refine(
 //   (data) => {
 //     if (data.accountType === "company") {

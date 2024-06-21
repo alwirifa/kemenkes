@@ -512,7 +512,7 @@ const Status = (props: Props) => {
 
           <FormField
             control={form.control}
-            name="sertifikat_bahasa"
+            name="sertifikat_bahasa_kemampuan"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Level Kemampuan Bahasa Asing Anda.</FormLabel>

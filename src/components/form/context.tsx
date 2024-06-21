@@ -53,6 +53,7 @@ const initialData: FormData = {
   sumber_survey: "",
   sumber_survey_nama: "",
   sumber_survey_no_hp: "",
+  sertifikat_bahasa_kemampuan: "",
   // nama_lengkap: "",
   // jenis_kelamin: "",
   // tanggal_lahir: "",
