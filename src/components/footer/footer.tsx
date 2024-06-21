@@ -15,10 +15,10 @@ const Footer = (props: Props) => {
             width={200}
           />
           <div>
-            <p>Kementerian Kesehatan</p>
+            {/* <p>Kementerian Kesehatan</p> */}
             <p>
-              Tracer Study, Direktorat Jenderal Pendidikan Tinggi Kementerian
-              Pendidikan dan Kebudayaan
+              Tracer Study, Kementerian
+              Kesehatan
             </p>
           </div>
           <div className="flex space-x-4 mt-4">
@@ -46,7 +46,7 @@ const Footer = (props: Props) => {
           <p>Jakarta 12950</p>
         </div>
 
-        <div>
+        {/* <div>
           <h2 className="font-bold text-lg mb-2">KONTAK</h2>
           <p>Telp : +62 (21) 57946105</p>
           <p>
@@ -57,7 +57,7 @@ const Footer = (props: Props) => {
               be@dikti.go.id
             </a>
           </p>
-        </div>
+        </div> */}
       </div>
       <div className="container mx-auto text-center border-t pt-4 mt-8">
         <p>© Copyright © KEMENKES - All Rights Reserved.</p>
