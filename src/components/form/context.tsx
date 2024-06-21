@@ -14,6 +14,12 @@ const initialData: FormData = {
   // passwordConfirm: "",
   accountType: "personal", // Default accountType to "personal"
   companyName: "",
+  nama_lengkap: "",
+  jenis_kelamin: "",
+  tanggal_lahir: "",
+  provinsi_domisili: "",
+  nomor_handphone: "",
+  email: "",
   str_type: "",
   tanggal_str: "",
 

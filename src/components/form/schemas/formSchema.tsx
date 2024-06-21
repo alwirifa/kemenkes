@@ -4,7 +4,12 @@ export const formSchema = z
   .object({
     accountType: z.enum(["personal", "company"]),
     companyName: z.string().optional(),
-
+    nama_lengkap: z.string().min(1, "Nama Lengkap harus diisi"),
+    jenis_kelamin: z.string().min(1, "Jenis Kelamin harus diisi"),
+    nomor_handphone: z.string().min(1, "Nomor phone harus diisi"),
+    tanggal_lahir: z.string().min(1, "Tanggal Lahir harus diisi"),
+    email: z.string().email("Invalid email address"),
+    provinsi_domisili: z.string().min(1, "Provinsi domisili harus diisi"),
     str_type: z.enum(["sudah", "belum", ""]).refine((val) => val !== "", {
       message: "STR harus dipilih",
     }),
