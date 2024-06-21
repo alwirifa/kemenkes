@@ -49,7 +49,7 @@ const STR = (props: Props) => {
               <Select onValueChange={field.onChange}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select an account type" />
+                    <SelectValue placeholder="Pilih STR" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
