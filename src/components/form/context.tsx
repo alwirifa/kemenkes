@@ -12,8 +12,8 @@ const initialData: FormData = {
   // emailAddress: "",
   // password: "",
   // passwordConfirm: "",
-  accountType: "personal", // Default accountType to "personal"
-  companyName: "",
+  // accountType: "personal", // Default accountType to "personal"
+  // companyName: "",
   nama_lengkap: "",
   jenis_kelamin: "",
   tanggal_lahir: "",
@@ -39,6 +39,20 @@ const initialData: FormData = {
   instansi_tempat_kerja_type: "",
   instansi_tempat_kerja: "",
   provinsi_tempat_kerja: "",
+
+  jenjang_pendidikan_ditempuh: "",
+  prodi_ditempuh: "",
+  kampus_ditempuh: "",
+
+  poltekkes_id: 0,
+  prodi_id: 0,
+  tanggal_lulus: "",
+  nim: "",
+  sosial_media: "",
+  sumber_survey_type: "",
+  sumber_survey: "",
+  sumber_survey_nama: "",
+  sumber_survey_no_hp: "",
   // nama_lengkap: "",
   // jenis_kelamin: "",
   // tanggal_lahir: "",

@@ -43,7 +43,6 @@ const Status = (props: Props) => {
     field.onChange(formattedDate);
   };
 
-
   const [provinceOptions, setProvinceOptions] = useState([]);
 
   const fetchProvinceData = async () => {
@@ -89,75 +88,140 @@ const Status = (props: Props) => {
           );
         }}
       />
-      {statusKerja === "Bekerja" && (
+      {statusKerja === "Melanjutkan Pendidikan" && (
         <>
           <FormField
             control={form.control}
-            name="lokasi_kerja"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Dimanakah anda bekerja?</FormLabel>
-                  <Select onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Pilih Lokasi kerja" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Indonesia">Indonesia</SelectItem>
-                      <SelectItem value="Luar Negeri">Luar Negeri</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-          <FormField
-            control={form.control}
-            name="tanggal_kerja"
+            name="jenjang_pendidikan_ditempuh"
             render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Tanggal anda mulai bekerja?</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-full pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(new Date(field.value), "PPP")
-                        ) : (
-                          <span>Pilih tanggal mulai bekerja</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      captionLayout="dropdown-buttons"
-                      fromYear={1990}
-                      toYear={2040}
-                      selected={field.value ? new Date(field.value) : undefined}
-                      onSelect={(date) => handleDateChange(field, date)}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+              <FormItem>
+                <FormLabel>
+                  Jenjang pendidikan yang sedang anda tempuh?
+                </FormLabel>
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih jenjang pendidikan" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="D4/STr">D4/STr</SelectItem>
+                    <SelectItem value="S1">S1</SelectItem>
+                    <SelectItem value="S2">S2</SelectItem>
+                    <SelectItem value="S3">S3</SelectItem>
+                  </SelectContent>
+                </Select>
+
                 <FormMessage />
               </FormItem>
             )}
           />
+
+          <FormField
+            control={form.control}
+            name="prodi_ditempuh"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Program Studi yang sedang ditempuh</FormLabel>
+                <FormControl>
+                  <Input placeholder="Program Studi" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="kampus_ditempuh"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Nama perguruan tinggi tempat anda menempuh pendidikan saat ini
+                </FormLabel>
+                <FormControl>
+                  <Input placeholder="Nama perguruan tinggi" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </>
+      )}
+
+      {statusKerja === "Bekerja" && (
+        <>
+          <div className="lg:flex gap-6 ">
+            <FormField
+              control={form.control}
+              name="lokasi_kerja"
+              render={({ field }) => {
+                return (
+                  <FormItem className="w-full">
+                    <FormLabel>Dimanakah anda bekerja?</FormLabel>
+                    <Select onValueChange={field.onChange}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Pilih Lokasi kerja" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Indonesia">Indonesia</SelectItem>
+                        <SelectItem value="Luar Negeri">Luar Negeri</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+            <FormField
+              control={form.control}
+              name="tanggal_kerja"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Tanggal anda mulai bekerja?</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(new Date(field.value), "PPP")
+                          ) : (
+                            <span>Pilih tanggal mulai bekerja</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        captionLayout="dropdown-buttons"
+                        fromYear={1990}
+                        toYear={2040}
+                        selected={
+                          field.value ? new Date(field.value) : undefined
+                        }
+                        onSelect={(date) => handleDateChange(field, date)}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </>
       )}
 
@@ -183,15 +247,15 @@ const Status = (props: Props) => {
                     <SelectItem value="RS Pemerintah">RS Pemerintah</SelectItem>
                     <SelectItem value="RS Swasta">RS Swasta</SelectItem>
                     <SelectItem value="Klinik Swasta">Klinik Swasta</SelectItem>
-                    <SelectItem value="Non Fasyankes">Non Fasyankes</SelectItem>
-                    <SelectItem value="yanglain">Yang lain ...</SelectItem>
+                    <SelectItem value="Non Fayankes">Non Fasyankes</SelectItem>
+                    {/* <SelectItem value="yanglain">Yang lain ...</SelectItem> */}
                   </SelectContent>
                 </Select>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {instansi_tempat_kerja_type === "yanglain" && (
+          {/* {instansi_tempat_kerja_type === "yanglain" && (
             <FormField
               control={form.control}
               name="instansi_tempat_kerja"
@@ -208,7 +272,7 @@ const Status = (props: Props) => {
                 </FormItem>
               )}
             />
-          )}
+          )} */}
           <FormField
             control={form.control}
             name="nama_tempat_kerja"
@@ -222,32 +286,30 @@ const Status = (props: Props) => {
               </FormItem>
             )}
           />
-            <FormField
-                  control={form.control}
-                  name="provinsi_tempat_kerja"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Sebutkan Provinsi tempat anda bekerja
-                      </FormLabel>
-                      <Select onValueChange={field.onChange}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Pilih domisili saat ini" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {provinceOptions.map((province) => (
-                            <SelectItem key={province} value={province}>
-                              {province}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+          <FormField
+            control={form.control}
+            name="provinsi_tempat_kerja"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Sebutkan Provinsi tempat anda bekerja</FormLabel>
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih domisili saat ini" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {provinceOptions.map((province) => (
+                      <SelectItem key={province} value={province}>
+                        {province}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </>
       )}
 

@@ -1,22 +1,8 @@
 "use client";
+
 import * as z from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import {
-  SelectValue,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  Select,
-} from "@/components/ui/select";
 import { useFormContext } from "./context";
 import { formSchema } from "./schemas/formSchema";
 import Email from "./email";
@@ -28,14 +14,43 @@ import ProvinsiDomisili from "./provinsi_domisili";
 import NomorHandphone from "./nomor_handphone";
 import STR from "./str";
 import Status from "./status";
+import Poltekkes from "./poltekkes";
+import SocialMedia from "./social_media";
+import SumberSurvey from "./asal_survey";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { useState } from "react";
 
 export default function FormKuesioner() {
   const { form } = useFormContext();
+  const router = useRouter();
 
-  const accountType = form.watch("accountType");
-
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    toast
+      .promise(
+        axios.post(
+          `https://tracerstudy-poltekkeskemenkes.id/api/v1/trace-study`,
+          values
+        ),
+        {
+          loading: "Submitting form...",
+          success: "Form submitted successfully",
+          error: "Error submitting form",
+        }
+      )
+      .then(() => {
+        router.push("/");
+      })
+      .catch((error) => {
+        throw error;
+      });
     console.log({ values });
+  };
+
+  const [listForm, setListForm] = useState(false);
+  const handleNext = () => {
+    setListForm(true);
   };
 
   return (
@@ -52,91 +67,58 @@ export default function FormKuesioner() {
               onSubmit={form.handleSubmit(handleSubmit)}
               className=" w-full flex flex-col gap-4"
             >
-              {/* <Name /> */}
-              {/* <JenisKelamin />
-              <TanggalLahir/>
-              <ProvinsiDomisili/>
-              <NomorHandphone/>
-              <Email /> */}
-              <STR/>
-              <Status/>
-              <FormField
-                control={form.control}
-                name="accountType"
-                render={({ field }) => {
-                  return (
-                    <FormItem>
-                      <FormLabel>Account type</FormLabel>
-                      <Select onValueChange={field.onChange}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select an account type" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="personal">Personal</SelectItem>
-                          <SelectItem value="company">Company</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
-              {accountType === "company" && (
-                <FormField
-                  control={form.control}
-                  name="companyName"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormLabel>Company name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Company name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
-                />
+              <p
+                className={`text-2xl font-bold ${listForm ? "flex" : "hidden"}`}
+              >
+                Identitas
+              </p>
+
+              <div className="lg:flex gap-6 ">
+                <Name />
+                <JenisKelamin />
+              </div>
+              <div className=":lg:flex gap-6 ">
+                <TanggalLahir />
+                <ProvinsiDomisili />
+              </div>
+              <div className="lg:flex gap-6 ">
+                <NomorHandphone />
+                <Email />
+              </div>
+              <div className="flex w-full justify-center mt-6">
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className={`text-sm font-medium px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/80 ${
+                    listForm ? "hidden" : "flex"
+                  }`}
+                >
+                  Selanjutnya
+                </button>
+              </div>
+              <p
+                className={`text-2xl font-bold ${listForm ? "flex" : "hidden"}`}
+              >
+                Kuesioner
+              </p>
+              {listForm && (
+                <>
+                  <Poltekkes />
+                  <STR />
+                  <Status />
+                  <SocialMedia />
+                  <SumberSurvey />
+                </>
               )}
-              {/* <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Password" type="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-          <FormField
-            control={form.control}
-            name="passwordConfirm"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Password confirm</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Password confirm"
-                      type="password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          /> */}
-              <Button type="submit" className="w-full">
-                Submit
-              </Button>
+              <div className="w-full flex justify-center">
+                <div
+                  className={`max-w-max w-full ${listForm ? "flex" : "hidden"}`}
+                >
+                  <Button type="submit" className="w-full">
+                    Submit
+                  </Button>
+                </div>
+              </div>
             </form>
           </Form>
         </div>

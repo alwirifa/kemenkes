@@ -2,14 +2,18 @@ import * as z from "zod";
 
 export const formSchema = z
   .object({
-    accountType: z.enum(["personal", "company"]),
-    companyName: z.string().optional(),
+    // accountType: z.enum(["personal", "company"]),
+    // companyName: z.string().optional(),
     nama_lengkap: z.string().min(1, "Nama Lengkap harus diisi"),
     jenis_kelamin: z.string().min(1, "Jenis Kelamin harus diisi"),
     nomor_handphone: z.string().min(1, "Nomor phone harus diisi"),
     tanggal_lahir: z.string().min(1, "Tanggal Lahir harus diisi"),
     email: z.string().email("Invalid email address"),
     provinsi_domisili: z.string().min(1, "Provinsi domisili harus diisi"),
+    poltekkes_id: z.number().int().min(1, "Poltekkes harus diisi"),
+    prodi_id: z.number().int().min(1, "Prodi Kemenkes harus diisi"),
+    nim: z.string().min(1, "Prodi Kemenkes harus diisi"),
+    tanggal_lulus: z.string().min(1, "Tanggal lulus harus diisi"),
     str_type: z.enum(["sudah", "belum", ""]).refine((val) => val !== "", {
       message: "STR harus dipilih",
     }),
@@ -62,15 +66,67 @@ export const formSchema = z
         "RS Swasta",
         "Klinik Swasta",
         "Non Fayankes",
-        "yanglain",
         "",
       ])
       .optional(),
     instansi_tempat_kerja: z.string().optional(),
     provinsi_tempat_kerja: z.string().optional(),
+
+    // pendidikan
+    jenjang_pendidikan_ditempuh: z.string(),
+    prodi_ditempuh: z.string(),
+    kampus_ditempuh: z.string(),
+    sosial_media: z.string().min(1, "social media harus diisi"),
+
+    sumber_survey_type: z.enum([
+      "Keluarga/Kerabat/Teman",
+      "Website",
+      "Social Media",
+      "",
+    ]),
+    sumber_survey: z.string(),
+    sumber_survey_nama: z.string(),
+    sumber_survey_no_hp: z.string(),
   })
 
   // ==========================================================
+
+  // Sumber Survey
+  .refine(
+    (data) => {
+      if (data.sumber_survey_type === "Keluarga/Kerabat/Teman") {
+        return !!data.sumber_survey_nama;
+      }
+      return true;
+    },
+    {
+      message: "Sumber survey nama tidak boleh kosong",
+      path: ["sumber_survey_nama"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.sumber_survey_type === "Keluarga/Kerabat/Teman") {
+        return !!data.sumber_survey_no_hp;
+      }
+      return true;
+    },
+    {
+      message: "Sumber survey no hptidak boleh kosong",
+      path: ["sumber_survey_no_hp"],
+    }
+  )
+  .refine((data) => {
+    if (data.sumber_survey_type === "Website") {
+      data.sumber_survey = "Website";
+    } else if (data.sumber_survey_type === "Social Media") {
+      data.sumber_survey = "Social Media";
+    } else if (data.sumber_survey_type === "Keluarga/Kerabat/Teman") {
+      data.sumber_survey = "Keluarga/Kerabat/Teman";
+    }
+    return true;
+  })
+
   // STR
   .refine(
     (data) => {
@@ -109,6 +165,42 @@ export const formSchema = z
       path: ["lokasi_kerja"],
     }
   )
+  .refine(
+    (data) => {
+      if (data.status_kerja === "Melanjutkan Pendidikan") {
+        return !!data.jenjang_pendidikan_ditempuh;
+      }
+      return true;
+    },
+    {
+      message: "Jenjang pendidikan perlu diisi",
+      path: ["jenjang_pendidikan_ditempuh"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.status_kerja === "Melanjutkan Pendidikan") {
+        return !!data.prodi_ditempuh;
+      }
+      return true;
+    },
+    {
+      message: "Prodi perlu diisi",
+      path: ["prodi_ditempuh"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.status_kerja === "Melanjutkan Pendidikan") {
+        return !!data.kampus_ditempuh;
+      }
+      return true;
+    },
+    {
+      message: "Kampus ditempuh perlu diisi",
+      path: ["kampus_ditempuh"],
+    }
+  )
   .refine((data) => {
     if (data.status_kerja === "Bekerja" && data.lokasi_kerja === "Indonesia") {
       data.negara_kerja = "Indonesia";
@@ -130,6 +222,8 @@ export const formSchema = z
       path: ["negara_kerja"],
     }
   )
+
+  // Pendidikan
 
   // LOKASI INDONESIA
   .refine(
@@ -169,18 +263,18 @@ export const formSchema = z
     }
     return true;
   })
-  .refine(
-    (data) => {
-      if (data.instansi_tempat_kerja_type === "yanglain") {
-        return !!data.instansi_tempat_kerja;
-      }
-      return true;
-    },
-    {
-      message: "Intansi tempat kerja perlu diisi",
-      path: ["instansi_tempat_kerja"],
-    }
-  )
+  // .refine(
+  //   (data) => {
+  //     if (data.instansi_tempat_kerja_type === "yanglain") {
+  //       return !!data.instansi_tempat_kerja;
+  //     }
+  //     return true;
+  //   },
+  //   {
+  //     message: "Intansi tempat kerja perlu diisi",
+  //     path: ["instansi_tempat_kerja"],
+  //   }
+  // )
   .refine(
     (data) => {
       if (
@@ -370,18 +464,18 @@ export const formSchema = z
       }
     }
     return true;
-  })
-  .refine(
-    (data) => {
-      if (data.accountType === "company") {
-        return !!data.companyName;
-      }
-      return true;
-    },
-    {
-      message: "Company name is required",
-      path: ["companyName"],
-    }
-  );
+  });
+// .refine(
+//   (data) => {
+//     if (data.accountType === "company") {
+//       return !!data.companyName;
+//     }
+//     return true;
+//   },
+//   {
+//     message: "Company name is required",
+//     path: ["companyName"],
+//   }
+// );
 
 export type FormData = z.infer<typeof formSchema>;
