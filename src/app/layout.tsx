@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import NextTopLoader from "nextjs-toploader";
 
 const lato = Poppins({
   subsets: ["latin"],
@@ -26,6 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={lato.className}>
+        <NextTopLoader
+          color="linear-gradient(to right, rgb(134, 239, 172), rgb(59, 130, 246), rgb(147, 51, 234))"
+          showSpinner={false}
+          height={4}
+          speed={800}
+        />
         {children}
         <Toaster />
       </body>

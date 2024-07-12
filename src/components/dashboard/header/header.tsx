@@ -1,9 +1,10 @@
 import React from "react";
-import Navigation from "@/components/navigation";
 import HeaderLogo from "@/components/header-logo";
 import { Loader2 } from "lucide-react";
-import Container from "./home/Container";
 import Link from "next/link";
+import Container from "@/components/Container";
+import DashboardNavigation from "./navigation.tsx";
+import AvatarAdmin from "./avatar";
 
 type Props = {};
 
@@ -15,13 +16,10 @@ const Header = (props: Props) => {
           <div className="flex items-center lg:gap-x-16 justify-between">
             <HeaderLogo />
             <div className="flex gap-2">
-              <Navigation />
-              <Link
-                href={"/sign-in"}
-                className="bg-primary text-white px-4 py-2 rounded-md font-medium hover:bg-primary/80"
-              >
-                sign in
-              </Link>
+              <DashboardNavigation />
+              <div className="ml-2">
+                <AvatarAdmin />
+              </div>
             </div>
           </div>
         </div>
