@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Add this to your CSS file */
+.table-wrapper {
+  border-right: none; /* Ensure no extra border on the right side */
+}
+
+/* Update your table cells to ensure no extra right border */
+.table-cell {
+  border-right: none; /* Remove any right borders from table cells */
+}
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;

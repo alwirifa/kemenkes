@@ -36,11 +36,15 @@ export default function Home() {
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await axios.post(
-        "https://close-positive-bunny.ngrok-free.app/api/auth/login",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/v1/login-admin`,
         values,
+
         { withCredentials: true }
       );
-      router.push("/admin");
+
+      localStorage.setItem("token", response.data.data.token);
+
+      router.push("/dashboard");
       console.log("Response:", response.data);
     } catch (error) {
       console.error("Error:", error);
@@ -172,8 +176,8 @@ export default function Home() {
             </div>
           </form>
         </Form>
-        <Link href={'/sign-up'}
-        
+        <Link
+          href={"/sign-up"}
           className="text-sm text-muted-foreground  lg:text-left"
         >
           Belum memiliki akun?

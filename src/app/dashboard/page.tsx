@@ -1,40 +1,82 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Container from "@/components/Container";
-import { Payment, columns } from "../dashboard/payments/columns";
-import { DataTable } from "../dashboard/payments/data-table";
+import { columns } from "@/components/dashboard/home/table/columns";
+import { DataTable } from "@/components/dashboard/home/table/data-table";
+import PieChartComponent from "@/components/dashboard/home/chart";
+import axios from "axios";
+import { Loader2 } from "lucide-react";
+import Pagination from "@/components/pagination";
+import { useSearchParams } from "next/navigation";
 
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    // ...
-  ];
-}
+export default function page({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+    limit?: string;
+  };
+}) {
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [totalPages, setTotalPages] = useState<any>("");
+  const queryParams = useSearchParams();
+  const currentPage = Number(queryParams.get("page")) || 1;
+  const limit = Number(queryParams.get("limit")) || 10;
 
-export default async function DemoPage() {
-  const data = await getData();
+  async function fetchAPIData(): Promise<any[]> {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/v1/auth/summary/home?page=${currentPage}&limit=${limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const { summary_respondens } = response.data.data;
+      const { total_page } = response.data.data;
+
+      const formattedData = summary_respondens.map((item: any) => ({
+        poltekkes: item.poltekkes_name,
+        lulusan: item.lulusan,
+        responden: item.total_responden,
+        bekerja: item.bekerja,
+        belumbekerja: item.belum_bekerja,
+        melanjutkanpendidikan: item.melanjutkan_pendidikan,
+        urutan: item.urutan,
+      }));
+
+      setTotalPages(total_page);
+      return formattedData;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return [];
+    }
+  }
+
+  useEffect(() => {
+    async function loadData() {
+      const apiData = await fetchAPIData();
+      setData(apiData);
+      setLoading(false);
+    }
+
+    loadData();
+  }, [searchParams?.page, currentPage]);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <Loader2 className={`animate-spin text-primary text-2xl h-12 w-12`} />
+      </div>
+    );
+  }
 
   return (
     <div className="">
@@ -60,6 +102,9 @@ export default async function DemoPage() {
             <p className="font-medium">Overview</p>
           </div>
 
+          <div>
+            <PieChartComponent />
+          </div>
           <div className="flex gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -79,6 +124,9 @@ export default async function DemoPage() {
           </div>
 
           <DataTable columns={columns} data={data} />
+          <div className="w-full flex justify-end mt-4">
+            <Pagination totalPages={totalPages} />
+          </div>
         </div>
       </Container>
     </div>
