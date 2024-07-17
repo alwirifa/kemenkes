@@ -40,10 +40,7 @@ const instansiOptions = [
     value: "Non Fanyakes",
     label: "Non Fanyakes",
   },
-  {
-    value: "Luar Negeri",
-    label: "Luar Negeri",
-  },
+  
 ];
 
 export default function Page({
@@ -108,25 +105,16 @@ export default function Page({
 
   useEffect(() => {
     async function loadData() {
-      setLoading(true); // Start loading
+      setLoading(true); 
       const apiData = await fetchAPIData();
       setData(apiData);
-      // Introduce a delay before setting loading to false
       setTimeout(() => {
-        setLoading(false); // Stop loading after delay
-      }, 300); // 300ms delay
+        setLoading(false); 
+      }, 300); 
     }
 
     loadData();
   }, [searchParams?.page, query, currentPage, selectedCategory]);
-
-  // if (loading) {
-  //   return (
-  //     <div className="h-screen w-full flex justify-center items-center">
-  //       <Loader2 className={`animate-spin text-primary text-2xl h-12 w-12`} />
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="">

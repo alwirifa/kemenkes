@@ -9,6 +9,7 @@ import axios from "axios";
 import { Loader2 } from "lucide-react";
 import Pagination from "@/components/pagination";
 import { useSearchParams } from "next/navigation";
+import HomeSummary from "@/components/dashboard/home/summary/summary";
 
 export default function page({
   searchParams,
@@ -25,6 +26,7 @@ export default function page({
   const queryParams = useSearchParams();
   const currentPage = Number(queryParams.get("page")) || 1;
   const limit = Number(queryParams.get("limit")) || 10;
+  const [chartMode, setChartMode] = useState(false);
 
   async function fetchAPIData(): Promise<any[]> {
     try {
@@ -62,49 +64,68 @@ export default function page({
 
   useEffect(() => {
     async function loadData() {
+      setLoading(true);
       const apiData = await fetchAPIData();
       setData(apiData);
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
     }
 
     loadData();
-  }, [searchParams?.page, currentPage]);
+  }, [searchParams?.page, currentPage, chartMode]);
 
-  if (loading) {
-    return (
-      <div className="h-screen w-full flex justify-center items-center">
-        <Loader2 className={`animate-spin text-primary text-2xl h-12 w-12`} />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="h-screen w-full flex justify-center items-center">
+  //       <Loader2 className={`animate-spin text-primary text-2xl h-12 w-12`} />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="">
       <Container>
         <div className="flex flex-col gap-6">
           <h1 className="text-4xl text-primary font-semibold">Ringkasan</h1>
-          <div className="flex gap-2 items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="feather feather-book-open text-primary"
+          <div className="w-full flex justify-between items-center">
+            <div className="flex gap-2 items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                className="feather feather-book-open text-primary"
+              >
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+              <p className="font-medium">Overview</p>
+            </div>
+            <div
+              className="text-primary px-4 py-2 border border-primary rounded-md cursor-pointer hover:bg-primary hover:text-white"
+              onClick={() => setChartMode(!chartMode)}
             >
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-            </svg>
-            <p className="font-medium">Overview</p>
+              <p className="font-medium text-sm">Chart Mode</p>
+            </div>
+          </div>
+          <div>
+            {loading ? (
+              <div className="mt-32 w-full flex justify-center items-center">
+                <Loader2
+                  className={`animate-spin text-primary text-2xl h-12 w-12`}
+                />
+              </div>
+            ) : (
+              <div>{chartMode ? <PieChartComponent /> : <HomeSummary />}</div>
+            )}
           </div>
 
-          <div>
-            <PieChartComponent />
-          </div>
           <div className="flex gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +144,17 @@ export default function page({
             <p className="font-medium">Summary</p>
           </div>
 
-          <DataTable columns={columns} data={data} />
+          {/* 
+          <DataTable columns={columns} data={data} /> */}
+          {loading ? (
+            <div className="mt-32 w-full flex justify-center items-center">
+              <Loader2
+                className={`animate-spin text-primary text-2xl h-12 w-12`}
+              />
+            </div>
+          ) : (
+            <DataTable columns={columns} data={data} />
+          )}
           <div className="w-full flex justify-end mt-4">
             <Pagination totalPages={totalPages} />
           </div>

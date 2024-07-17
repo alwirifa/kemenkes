@@ -15,6 +15,8 @@ const PieChartComponent: React.FC = () => {
   const [apiData, setApiData] = useState<PieData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalResponden, setTotalResponden] = useState<any>("");
+  const [respondeRate, setRespondRate] = useState<any>("")
+  const [totalLulusan,setTotalLulusan ] = useState<any>("")
 
   useEffect(() => {
     async function fetchData() {
@@ -31,7 +33,7 @@ const PieChartComponent: React.FC = () => {
 
         console.log("API response:", response.data.data);
         const { percentage_work_statuses } = response.data.data;
-        const { total_responden } = response.data.data;
+        const { total_responden, respond_rate, total_lulusan } = response.data.data;
 
         const fetchedData: PieData[] =
           percentage_work_statuses?.map((item: any, index: number) => ({
@@ -41,6 +43,8 @@ const PieChartComponent: React.FC = () => {
           })) || [];
 
         setTotalResponden(total_responden);
+        setTotalLulusan(total_lulusan)
+        setRespondRate(respond_rate)
         setApiData(fetchedData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -113,9 +117,9 @@ const PieChartComponent: React.FC = () => {
     const handleResize = () => {
       if (window.innerWidth <= 640) {
         setChartDimensions({
-          width: 300,
+          width: 350,
           height: 300,
-          cx: 150,
+          cx: 170,
           cy: 150,
           outerRadius: 60,
         });
@@ -146,19 +150,15 @@ const PieChartComponent: React.FC = () => {
       }
     };
 
-    // Initial check on component mount
     handleResize();
 
-    // Add event listener for resize
     window.addEventListener("resize", handleResize);
 
-    // Cleanup on component unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  // Destructure chartDimensions for easier usage
   const { width, height, cx, cy, outerRadius } = chartDimensions;
 
   return (
@@ -201,8 +201,8 @@ const PieChartComponent: React.FC = () => {
         </div>
       </div>
       <div className="w-full text-center bg-primary text-white py-4 rounded-b-md mt-6 sm:mt-0">
-        Respond Rate: <span className="font-semibold">57.44%</span> dari{" "}
-        <span className="font-semibold">117.101</span> Lulusan
+        Respond Rate: <span className="font-semibold">{respondeRate}%</span> dari{" "}
+        <span className="font-semibold">{totalLulusan}</span> Lulusan
       </div>
     </div>
   );
