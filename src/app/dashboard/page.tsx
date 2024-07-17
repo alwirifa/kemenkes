@@ -108,10 +108,10 @@ export default function page({
               <p className="font-medium">Overview</p>
             </div>
             <div
-              className="text-primary px-4 py-2 border border-primary rounded-md cursor-pointer hover:bg-primary hover:text-white"
+              className="text-primary px-4 py-2 border border-primary rounded-md cursor-pointer hover:bg-primary hover:text-white ease-in-out duration-300"
               onClick={() => setChartMode(!chartMode)}
             >
-              <p className="font-medium text-sm">Chart Mode</p>
+              <p className="font-medium text-sm">{chartMode ? '# Numeric Mode' : '# Chart Mode'}</p>
             </div>
           </div>
           <div>
