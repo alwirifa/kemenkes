@@ -18,6 +18,7 @@ import Search from "@/components/search";
 import { useSearchParams } from "next/navigation";
 import Pagination from "@/components/pagination";
 import CheckBoxGroup from "@/components/dashboard/responden/checkbox";
+import Link from "next/link";
 
 const instansiOptions = [
   {
@@ -40,8 +41,22 @@ const instansiOptions = [
     value: "Non Fanyakes",
     label: "Non Fanyakes",
   },
-  
 ];
+
+const statusOptions = [
+  {
+    value: "Bekerja",
+    label: "Bekerja",
+  },
+  {
+    value: "Belum Bekerja",
+    label: "Belum Bekerja",
+  },
+  {
+    value: "Melanjutkan Pendidikan",
+    label: "Melanjutkan Pendidikan",
+  }
+]
 
 export default function Page({
   searchParams,
@@ -60,6 +75,8 @@ export default function Page({
   const limit = Number(queryParams.get("limit")) || 10;
   const [totalPages, setTotalPages] = useState<any>({});
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedStatus, setSelectedStatus] = useState<string>("");
+
 
   const handleCheckboxChange = (selectedValues: string[]) => {
     setSelectedCategory(selectedValues.join(","));
@@ -72,6 +89,9 @@ export default function Page({
       let url = `${process.env.NEXT_PUBLIC_BASE_URL}/v1/auth/summary/responden?search=${query}&page=${currentPage}&limit=${limit}`;
       if (selectedCategory) {
         url += `&instansi=${selectedCategory}`;
+      }
+      if (selectedStatus) {
+        url += `&status_kerja=${selectedCategory}`;
       }
 
       const response = await axios.get(url, {
@@ -105,12 +125,12 @@ export default function Page({
 
   useEffect(() => {
     async function loadData() {
-      setLoading(true); 
+      setLoading(true);
       const apiData = await fetchAPIData();
       setData(apiData);
       setTimeout(() => {
-        setLoading(false); 
-      }, 300); 
+        setLoading(false);
+      }, 300);
     }
 
     loadData();
@@ -142,12 +162,10 @@ export default function Page({
               <p className="font-medium">Summary</p>
             </div>
             <div className="flex gap-2">
-              <Search placeholder="Cari data ..." />
-
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <div className="px-4 py-2 rounded-md border border-primary text-primary text-sm cursor-pointer">
-                    Opsi
+                    Instansi
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
@@ -163,15 +181,56 @@ export default function Page({
                     onSelectionChange={handleCheckboxChange}
                   />
 
-                  <DropdownMenuSeparator className="my-1" />
+                  {/* <DropdownMenuSeparator className="my-1" />
 
                   <DropdownMenuItem className="rounded-md px-3 py-2 text-sm focus:bg-white">
                     <div className="w-full rounded-md py-2 border text-center border-primary text-primary hover:bg-primary hover:text-white cursor-pointer">
                       <h1>Unduh Laporan</h1>
                     </div>
+                  </DropdownMenuItem> */}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="px-4 py-2 rounded-md border border-primary text-primary text-sm cursor-pointer">
+                    Status
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-48 bg-background rounded-md shadow-lg "
+                  align="end"
+                >
+                  <DropdownMenuItem className="rounded-md px-3 py-2 text-sm hover:bg-primary/20 hover:font-semibold">
+                    <Link
+                      href="#"
+                      className="flex w-full items-center gap-2 text-foreground text-primary"
+                      prefetch={false}
+                    >
+                      <span>Bekerja</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="rounded-md px-3 py-2 text-sm hover:bg-primary/20 hover:font-semibold">
+                    <Link
+                      href="#"
+                      className="flex w-full items-center gap-2 text-foreground text-primary"
+                      prefetch={false}
+                    >
+                      <span>Belum Bekerja</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="rounded-md px-3 py-2 text-sm hover:bg-primary/20 hover:font-semibold text-primary">
+                    <Link
+                      href="#"
+                      className="flex w-full items-center gap-2 text-foreground text-primary"
+                      prefetch={false}
+                    >
+                      <span>Melanjutkan Pendidikan</span>
+                    </Link>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+              <Search placeholder="Cari data ..." />
             </div>
           </div>
           {loading ? (
