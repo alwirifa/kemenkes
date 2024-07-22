@@ -17,10 +17,15 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import { toast, Toaster } from "react-hot-toast";
 
 const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(3),
+  email: z.string().email("Email tidak valid"),
+  password: z.string()
+    .min(3, { message: "Masukan Password" })
+    .refine(value => value !== 'wrong_password', {
+      message: "Password salah",
+    }),
 });
 
 export default function Home() {
@@ -34,25 +39,28 @@ export default function Home() {
   });
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/v1/login-admin`,
-        values,
-
-        { withCredentials: true }
-      );
-
-      localStorage.setItem("token", response.data.data.token);
-
-      router.push("/dashboard");
-      console.log("Response:", response.data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    toast.promise(
+      axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/v1/login-admin`, values, { withCredentials: true })
+        .then(response => {
+          localStorage.setItem("token", response.data.data.token);
+          document.cookie = `token=${response.data.data.token}; path=/;`;
+  
+          router.push("/dashboard");
+          console.log("Response:", response.data);
+        }),
+      {
+        loading: "Loading...",
+        success: "Login successful!",
+        error: "Login failed. Please try again.",
+      }
+    );
   };
+
+
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 lg:px-0 lg:grid lg:grid-cols-2">
+      <Toaster />
       <div className="flex flex-col gap-6 justify-center px-4 md:px-16 lg:px-24 xl:px-32 w-full lg:w-auto mx-auto lg:mx-0">
         <div className="absolute top-8 left-8 md:left-16 lg:left-24 xl:left-32">
           <Image
@@ -169,20 +177,20 @@ export default function Home() {
             <div className="mt-4 w-full max-w-max lg:mx-0">
               <button
                 type="submit"
-                className="px-10 py-3 rounded-md text-sm text-white bg-primary hover:bg-primary/80 font-medium "
+                className="px-10 py-3 rounded-md text-sm text-white bg-primary hover:bg-primary/80 font-medium"
               >
                 Masuk
               </button>
             </div>
           </form>
         </Form>
-        <Link
+        {/* <Link
           href={"/sign-up"}
           className="text-sm text-muted-foreground  lg:text-left"
         >
           Belum memiliki akun?
           <span className="ml-1 hover:underline cursor-pointer">Daftar</span>
-        </Link>
+        </Link> */}
       </div>
       <div className="hidden lg:block h-full w-full relative">
         <Image

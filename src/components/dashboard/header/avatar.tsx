@@ -18,6 +18,17 @@ import Link from "next/link";
 
 export default function AvatarAdmin() {
   const router = useRouter();
+
+  const handleLogout = () => {
+    // Remove token from local storage
+    localStorage.removeItem('token');
+
+    // Expire the token cookie
+    document.cookie = 'token=; Max-Age=0; path=/;';
+
+    // Redirect to the sign-in page
+    router.push('/sign-in-admin');
+  };
   return (
     <div>
       {/* <DropdownMenu>
@@ -55,36 +66,18 @@ export default function AvatarAdmin() {
           className="w-48 bg-background rounded-md shadow-lg"
           align="end"
         >
-          <DropdownMenuItem className="rounded-md px-3 py-2 text-sm hover:bg-muted">
+        
+        <DropdownMenuItem
+            className="rounded-md px-3 py-2 text-sm hover:bg-muted"
+            onClick={handleLogout}
+          >
             <Link
-              href="#"
-              className="flex w-full items-center gap-2 text-foreground"
-              prefetch={false}
-            >
-              <UserIcon className="h-4 w-4" />
-              <span>Profile</span>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="rounded-md px-3 py-2 text-sm hover:bg-muted">
-            <Link
-              href="#"
-              className="flex w-full items-center gap-2 text-foreground"
-              prefetch={false}
-            >
-              <SettingsIcon className="h-4 w-4" />
-              <span>Settings</span>
-            </Link>
-          </DropdownMenuItem>
-       
-          <DropdownMenuSeparator className="my-1" />
-          <DropdownMenuItem className="rounded-md px-3 py-2 text-sm hover:bg-muted">
-            <Link
-              href="/"
+              href="/sign-in-admin"
               className="flex w-full items-center gap-2 text-foreground"
               prefetch={false}
             >
               <LogOutIcon className="h-4 w-4" />
-              <span onClick={() => router.push("/sign-in")}>Logout</span>
+              <span>Logout</span>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
