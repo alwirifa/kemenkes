@@ -133,9 +133,9 @@ function PoltekkesCardDetail({ id }: Props) {
     <div className="flex flex-col gap-6">
       <h1 className="text-4xl text-primary font-semibold">{poltekkseName}</h1>
 
-      <div className="flex gap-2 font-medium">
+      <div className="flex flex-col md:flex-row gap-2 font-medium text-sm md:text-base">
         <p>Jumlah Lulusan (2020 - 2023): {totalLulusan} Lulusan</p>
-        <p>|</p>
+        <p className="hidden sm:block">|</p>
         <p>
           Responden: {totalResponden} Responden {respondRate}%
         </p>

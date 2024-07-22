@@ -20,7 +20,7 @@ const routes = [
   },
   {
     href: "/dashboard/instansi",
-    label: "Intansi",
+    label: "Instansi",
   },
   {
     href: "/dashboard/poltekkes",
@@ -43,24 +43,31 @@ const DashboardNavigation = () => {
     setIsOpen(false);
   };
 
+  const isRouteActive = (href: string) => {
+    if (href === "/dashboard") {
+      return pathname === href;
+    }
+    return pathname.startsWith(href) && (pathname === href || pathname[href.length] === "/");
+  };
+
+
   if (isMobile) {
     return (
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <div className="flex justify-between items-center w-full ">
+        <div className="flex justify-between items-center w-full">
           <div className="absolute top-7 left-6">
-
-          <Image
-            src={"/icons/logo_kemenkes.png"}
-            alt="logo"
-            height={10}
-            width={200}
-          />
-            </div>
+            <Image
+              src={"/icons/logo_kemenkes.png"}
+              alt="logo"
+              height={10}
+              width={200}
+            />
+          </div>
           <SheetTrigger>
             <Button
               variant="outline"
               size="sm"
-              className="font-normal  hover:text-primary border-none focus-visible:ring-offset-0 focus-visible:ring-transparent outline-none text-black fpcus:bg-white/30 transition"
+              className="font-normal hover:text-primary border-none focus-visible:ring-offset-0 focus-visible:ring-transparent outline-none text-black focus:bg-white/30 transition"
             >
               <Menu className="size-4" />
             </Button>
@@ -71,7 +78,7 @@ const DashboardNavigation = () => {
             {routes.map((route) => (
               <Button
                 key={route.href}
-                variant={route.href === pathname ? "secondary" : "ghost"}
+                variant={isRouteActive(route.href) ? "secondary" : "ghost"}
                 onClick={() => onClick(route.href)}
                 className="w-full justify-start"
               >
@@ -91,7 +98,7 @@ const DashboardNavigation = () => {
           key={route.href}
           href={route.href}
           label={route.label}
-          isActive={pathname === route.href}
+          isActive={isRouteActive(route.href)}
         />
       ))}
     </div>

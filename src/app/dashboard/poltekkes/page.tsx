@@ -33,8 +33,7 @@ function page({
     <div>
       <Container>
         <div className="flex flex-col gap-6">
-          <h1 className="text-4xl text-primary font-semibold">Politeknik Kesehatan</h1>
-
+         
           <PoltekkesCard/>
 
           

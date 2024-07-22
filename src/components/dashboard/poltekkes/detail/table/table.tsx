@@ -41,6 +41,26 @@ const instansiOptions = [
   },
 ];
 
+const statusOptions = [
+  {
+    value: "",
+    label: "All",
+  },
+  {
+    value: "Bekerja",
+    label: "Bekerja",
+  },
+  {
+    value: "Belum Bekerja",
+    label: "Belum Bekerja",
+  },
+  {
+    value: "Melanjutkan Pendidikan",
+    label: "Melanjutkan Pendidikan",
+  },
+];
+
+
 type SearchParams = {
  query?: string;
  page?: string;
@@ -67,6 +87,10 @@ function AlumniDetailTable({ id, searchParams }: Props) {
     setSelectedCategory(selectedValues.join(","));
   };
 
+  const handleStatusChange = (status: string) => {
+    setSelectedStatus(status);
+  };
+
   async function fetchAPIData(): Promise<any[]> {
     try {
       const token = localStorage.getItem("token");
@@ -76,7 +100,7 @@ function AlumniDetailTable({ id, searchParams }: Props) {
         url += `&instansi=${selectedCategory}`;
       }
       if (selectedStatus) {
-        url += `&status_kerja=${selectedCategory}`;
+        url += `&status_kerja=${selectedStatus}`;
       }
 
       const response = await axios.get(url, {
@@ -123,11 +147,11 @@ console.log(summary_responden_detail)
     }
 
     loadData();
-  }, [searchParams?.page, query, currentPage, selectedCategory]);
+  }, [searchParams?.page, query, currentPage, selectedCategory, selectedStatus]);
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="w-full flex justify-between items-center">
+      <div className="w-full flex flex-col md:flex-row gap-6 justify-between items-center">
         <div className="flex gap-2 items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -168,44 +192,28 @@ console.log(summary_responden_detail)
           </DropdownMenu>
 
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="px-4 py-2 rounded-md border border-primary text-primary text-sm cursor-pointer">
-                Status
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              className="w-48 bg-background rounded-md shadow-lg "
-              align="end"
-            >
-              <DropdownMenuItem className="rounded-md px-3 py-2 text-sm hover:bg-primary/20 hover:font-semibold">
-                <Link
-                  href="#"
-                  className="flex w-full items-center gap-2 text-foreground text-primary"
-                  prefetch={false}
+                <DropdownMenuTrigger asChild>
+                  <div className="px-4 py-2 rounded-md border border-primary text-primary text-sm cursor-pointer">
+                    Status
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-48 bg-background rounded-md shadow-lg "
+                  align="end"
                 >
-                  <span>Bekerja</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="rounded-md px-3 py-2 text-sm hover:bg-primary/20 hover:font-semibold">
-                <Link
-                  href="#"
-                  className="flex w-full items-center gap-2 text-foreground text-primary"
-                  prefetch={false}
-                >
-                  <span>Belum Bekerja</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="rounded-md px-3 py-2 text-sm hover:bg-primary/20 hover:font-semibold text-primary">
-                <Link
-                  href="#"
-                  className="flex w-full items-center gap-2 text-foreground text-primary"
-                  prefetch={false}
-                >
-                  <span>Melanjutkan Pendidikan</span>
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  {statusOptions.map((option) => (
+                    <div
+                      key={option.value}
+                      className={`rounded-md px-3 py-2 text-sm cursor-pointer mt-1 ${
+                        selectedStatus === option.value ? "font-medium bg-primary text-white" : "hover:bg-primary/20"
+                      }`}
+                      onClick={() => handleStatusChange(option.value)}
+                    >
+                      <span>{option.label}</span>
+                    </div>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
           <Search placeholder="Cari data ..." />
         </div>
       </div>

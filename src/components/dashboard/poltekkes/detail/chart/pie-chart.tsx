@@ -35,14 +35,14 @@ function PieChartComponentDetail ({ id }: Props){
           }
         );
 
-        console.log("API response:", response.data.data);
         const { percentage_work_statuses } = response.data.data;
         const { total_responden, respond_rate, total_lulusan } = response.data.data;
 
+        console.log(percentage_work_statuses)
         const fetchedData: PieData[] =
           percentage_work_statuses?.map((item: any, index: number) => ({
             name: item.work_status,
-            value: item.percentage_responden,
+            value: item.number_responden,
             color: COLORS[index % COLORS.length],
           })) || [];
 
@@ -166,7 +166,7 @@ function PieChartComponentDetail ({ id }: Props){
   const { width, height, cx, cy, outerRadius } = chartDimensions;
 
   return (
-      <div className="border-neutral-200 rounded-lg border flex flex-col items-center h-full relative w-full p-4">
+      <div className="border-neutral-200 rounded-lg border flex flex-col items-center h-full relative w-full md:w-[36%] p-4">
      
         <div className="rounded-md ">
           <PieChart width={width} height={height}>

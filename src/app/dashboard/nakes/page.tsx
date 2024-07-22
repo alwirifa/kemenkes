@@ -11,11 +11,7 @@ function page() {
     <div>
       <Container>
         <div className="flex flex-col gap-6">
-          <div className="w-full flex justify-between">
-
-          <h1 className="text-4xl text-primary font-semibold">Nakes</h1>
-          <Search placeholder="Cari data ..." />
-          </div>
+       
 
           <NakesSummary />
         </div>

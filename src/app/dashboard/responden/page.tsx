@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Container from "@/components/Container";
 import { columns } from "@/components/dashboard/responden/table/columns";
-import { DataTable } from "@/components/dashboard/home/table/data-table";
+import { DataTable } from "@/components/dashboard/responden/table/data-table";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -45,6 +45,10 @@ const instansiOptions = [
 
 const statusOptions = [
   {
+    value: "",
+    label: "All",
+  },
+  {
     value: "Bekerja",
     label: "Bekerja",
   },
@@ -55,8 +59,8 @@ const statusOptions = [
   {
     value: "Melanjutkan Pendidikan",
     label: "Melanjutkan Pendidikan",
-  }
-]
+  },
+];
 
 export default function Page({
   searchParams,
@@ -77,11 +81,15 @@ export default function Page({
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedStatus, setSelectedStatus] = useState<string>("");
 
-
   const handleCheckboxChange = (selectedValues: string[]) => {
     setSelectedCategory(selectedValues.join(","));
   };
 
+  const handleStatusChange = (status: string) => {
+    setSelectedStatus(status);
+  };
+
+  console.log(selectedCategory)
   async function fetchAPIData(): Promise<any[]> {
     try {
       const token = localStorage.getItem("token");
@@ -91,7 +99,7 @@ export default function Page({
         url += `&instansi=${selectedCategory}`;
       }
       if (selectedStatus) {
-        url += `&status_kerja=${selectedCategory}`;
+        url += `&status_kerja=${selectedStatus}`;
       }
 
       const response = await axios.get(url, {
@@ -134,7 +142,7 @@ export default function Page({
     }
 
     loadData();
-  }, [searchParams?.page, query, currentPage, selectedCategory]);
+  }, [searchParams?.page, query, currentPage, selectedCategory, selectedStatus]);
 
   return (
     <div className="">
@@ -180,14 +188,6 @@ export default function Page({
                     options={instansiOptions}
                     onSelectionChange={handleCheckboxChange}
                   />
-
-                  {/* <DropdownMenuSeparator className="my-1" />
-
-                  <DropdownMenuItem className="rounded-md px-3 py-2 text-sm focus:bg-white">
-                    <div className="w-full rounded-md py-2 border text-center border-primary text-primary hover:bg-primary hover:text-white cursor-pointer">
-                      <h1>Unduh Laporan</h1>
-                    </div>
-                  </DropdownMenuItem> */}
                 </DropdownMenuContent>
               </DropdownMenu>
 
@@ -201,33 +201,17 @@ export default function Page({
                   className="w-48 bg-background rounded-md shadow-lg "
                   align="end"
                 >
-                  <DropdownMenuItem className="rounded-md px-3 py-2 text-sm hover:bg-primary/20 hover:font-semibold">
-                    <Link
-                      href="#"
-                      className="flex w-full items-center gap-2 text-foreground text-primary"
-                      prefetch={false}
+                  {statusOptions.map((option) => (
+                    <div
+                      key={option.value}
+                      className={`rounded-md px-3 py-2 text-sm cursor-pointer mt-1 ${
+                        selectedStatus === option.value ? "font-medium bg-primary text-white" : "hover:bg-primary/20"
+                      }`}
+                      onClick={() => handleStatusChange(option.value)}
                     >
-                      <span>Bekerja</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="rounded-md px-3 py-2 text-sm hover:bg-primary/20 hover:font-semibold">
-                    <Link
-                      href="#"
-                      className="flex w-full items-center gap-2 text-foreground text-primary"
-                      prefetch={false}
-                    >
-                      <span>Belum Bekerja</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="rounded-md px-3 py-2 text-sm hover:bg-primary/20 hover:font-semibold text-primary">
-                    <Link
-                      href="#"
-                      className="flex w-full items-center gap-2 text-foreground text-primary"
-                      prefetch={false}
-                    >
-                      <span>Melanjutkan Pendidikan</span>
-                    </Link>
-                  </DropdownMenuItem>
+                      <span>{option.label}</span>
+                    </div>
+                  ))}
                 </DropdownMenuContent>
               </DropdownMenu>
               <Search placeholder="Cari data ..." />

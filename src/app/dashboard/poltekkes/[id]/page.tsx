@@ -6,16 +6,34 @@ import PieChartComponentDetail from "@/components/dashboard/poltekkes/detail/cha
 import React, { useEffect, useState } from "react";
 import PoltekkesIntasnsiCard from "@/components/dashboard/poltekkes/detail/card/instansi-card";
 import AlumniDetailTable from "@/components/dashboard/poltekkes/detail/table/table";
+import BarChartDetailComponent from "@/components/dashboard/poltekkes/detail/chart/bar-chart";
+import Link from "next/link";
 
 function page({ params }: { params: { id: string } }) {
   return (
     <div>
       <Container>
         <div className="flex flex-col gap-6">
-       
+          <Link href={`/dashboard/poltekkes`} className="flex gap-1 hover:fill-primary hover:text-primary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="feather feather-chevron-left"
+            >
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <p>Kembali ke Halaman Poltekkes</p>
+          </Link>
           <PoltekkesCardDetail id={parseInt(params.id)} />
-          <div className="flex gap-6">
-            <PieChartComponentDetail id={parseInt(params.id)} />
+          <div className="flex md:flex-row flex-col gap-6 items-center">
+            <BarChartDetailComponent id={parseInt(params.id)} />
             <PieChartComponentDetail id={parseInt(params.id)} />
           </div>
 
