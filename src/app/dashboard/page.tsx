@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Container from "@/components/Container";
 import { columns } from "@/components/dashboard/home/table/columns";
 import { DataTable } from "@/components/dashboard/home/table/data-table";
@@ -77,10 +77,50 @@ export default function Page({
 
   return (
     <div className="">
-      <Container>
-        <div className="flex flex-col gap-6">
-          <h1 className="text-4xl text-primary font-semibold">Ringkasan</h1>
-          <div className="w-full flex justify-between items-center">
+      <Suspense fallback={<div>Loading...</div>}>
+        <Container>
+          <div className="flex flex-col gap-6">
+            <h1 className="text-4xl text-primary font-semibold">Ringkasan</h1>
+            <div className="w-full flex justify-between items-center">
+              <div className="flex gap-2 items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="feather feather-book-open text-primary"
+                >
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+                <p className="font-medium">Overview</p>
+              </div>
+              <div
+                className="text-primary px-4 py-2 border border-primary rounded-md cursor-pointer hover:bg-primary hover:text-white ease-in-out duration-300"
+                onClick={() => setChartMode(!chartMode)}
+              >
+                <p className="font-medium text-sm">
+                  {chartMode ? "# Numeric Mode" : "# Chart Mode"}
+                </p>
+              </div>
+            </div>
+            <div>
+              {loading ? (
+                <div className="mt-32 w-full flex justify-center items-center">
+                  <Loader2
+                    className={`animate-spin text-primary text-2xl h-12 w-12`}
+                  />
+                </div>
+              ) : (
+                <div>{chartMode ? <PieChartComponent /> : <HomeSummary />}</div>
+              )}
+            </div>
+
             <div className="flex gap-2 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -92,21 +132,13 @@ export default function Page({
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="feather feather-book-open text-primary"
+                className="feather feather-table text-primary"
               >
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"></path>
               </svg>
-              <p className="font-medium">Overview</p>
+              <p className="font-medium">Summary</p>
             </div>
-            <div
-              className="text-primary px-4 py-2 border border-primary rounded-md cursor-pointer hover:bg-primary hover:text-white ease-in-out duration-300"
-              onClick={() => setChartMode(!chartMode)}
-            >
-              <p className="font-medium text-sm">{chartMode ? '# Numeric Mode' : '# Chart Mode'}</p>
-            </div>
-          </div>
-          <div>
+
             {loading ? (
               <div className="mt-32 w-full flex justify-center items-center">
                 <Loader2
@@ -114,42 +146,14 @@ export default function Page({
                 />
               </div>
             ) : (
-              <div>{chartMode ? <PieChartComponent /> : <HomeSummary />}</div>
+              <DataTable columns={columns} data={data} />
             )}
-          </div>
-
-          <div className="flex gap-2 items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-table text-primary"
-            >
-              <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"></path>
-            </svg>
-            <p className="font-medium">Summary</p>
-          </div>
-
-          {loading ? (
-            <div className="mt-32 w-full flex justify-center items-center">
-              <Loader2
-                className={`animate-spin text-primary text-2xl h-12 w-12`}
-              />
+            <div className="w-full flex justify-end mt-4">
+              <Pagination totalPages={totalPages} />
             </div>
-          ) : (
-            <DataTable columns={columns} data={data} />
-          )}
-          <div className="w-full flex justify-end mt-4">
-            <Pagination totalPages={totalPages} />
           </div>
-        </div>
-      </Container>
+        </Container>
+      </Suspense>
     </div>
   );
 }

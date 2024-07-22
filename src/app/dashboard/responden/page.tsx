@@ -1,6 +1,6 @@
-"use client";
+"use client"; // Ensure this file is treated as a client-side component
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Container from "@/components/Container";
 import { columns } from "@/components/dashboard/responden/table/columns";
 import { DataTable } from "@/components/dashboard/responden/table/data-table";
@@ -9,7 +9,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
@@ -18,59 +17,23 @@ import Search from "@/components/search";
 import { useSearchParams } from "next/navigation";
 import Pagination from "@/components/pagination";
 import CheckBoxGroup from "@/components/dashboard/responden/checkbox";
-import Link from "next/link";
 
 const instansiOptions = [
-  {
-    value: "RS Swasta",
-    label: "RS Swasta",
-  },
-  {
-    value: "Puskesmas",
-    label: "Puskesmas",
-  },
-  {
-    value: "RS Pemerintah",
-    label: "RS Pemerintah",
-  },
-  {
-    value: "Klinik Swasta",
-    label: "Klinik Swasta",
-  },
-  {
-    value: "Non Fanyakes",
-    label: "Non Fanyakes",
-  },
+  { value: "RS Swasta", label: "RS Swasta" },
+  { value: "Puskesmas", label: "Puskesmas" },
+  { value: "RS Pemerintah", label: "RS Pemerintah" },
+  { value: "Klinik Swasta", label: "Klinik Swasta" },
+  { value: "Non Fanyakes", label: "Non Fanyakes" },
 ];
 
 const statusOptions = [
-  {
-    value: "",
-    label: "All",
-  },
-  {
-    value: "Bekerja",
-    label: "Bekerja",
-  },
-  {
-    value: "Belum Bekerja",
-    label: "Belum Bekerja",
-  },
-  {
-    value: "Melanjutkan Pendidikan",
-    label: "Melanjutkan Pendidikan",
-  },
+  { value: "", label: "All" },
+  { value: "Bekerja", label: "Bekerja" },
+  { value: "Belum Bekerja", label: "Belum Bekerja" },
+  { value: "Melanjutkan Pendidikan", label: "Melanjutkan Pendidikan" },
 ];
 
-export default function Page({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-    limit?: string;
-  };
-}) {
+export default function Page() {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const queryParams = useSearchParams();
@@ -89,7 +52,6 @@ export default function Page({
     setSelectedStatus(status);
   };
 
-  console.log(selectedCategory)
   async function fetchAPIData(): Promise<any[]> {
     try {
       const token = localStorage.getItem("token");
@@ -142,10 +104,10 @@ export default function Page({
     }
 
     loadData();
-  }, [searchParams?.page, query, currentPage, selectedCategory, selectedStatus]);
+  }, [query, currentPage, selectedCategory, selectedStatus]);
 
   return (
-    <div className="">
+    <Suspense fallback={<div>Loading...</div>}>
       <Container>
         <div className="flex flex-col gap-6">
           <h1 className="text-4xl text-primary font-semibold">Responden</h1>
@@ -177,10 +139,10 @@ export default function Page({
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                  className="w-[300px] bg-background rounded-md shadow-lg "
+                  className="w-[300px] bg-background rounded-md shadow-lg"
                   align="end"
                 >
-                  <DropdownMenuItem className="rounded-md px-3 py-2 text-sm  items-start justify-start flex flex-col gap-2 focus:bg-white">
+                  <DropdownMenuItem className="rounded-md px-3 py-2 text-sm items-start justify-start flex flex-col gap-2 focus:bg-white">
                     <h1 className="font-semibold">Jenis Intansi</h1>
                   </DropdownMenuItem>
                   <CheckBoxGroup
@@ -198,14 +160,16 @@ export default function Page({
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                  className="w-48 bg-background rounded-md shadow-lg "
+                  className="w-48 bg-background rounded-md shadow-lg"
                   align="end"
                 >
                   {statusOptions.map((option) => (
                     <div
                       key={option.value}
                       className={`rounded-md px-3 py-2 text-sm cursor-pointer mt-1 ${
-                        selectedStatus === option.value ? "font-medium bg-primary text-white" : "hover:bg-primary/20"
+                        selectedStatus === option.value
+                          ? "font-medium bg-primary text-white"
+                          : "hover:bg-primary/20"
                       }`}
                       onClick={() => handleStatusChange(option.value)}
                     >
@@ -219,9 +183,7 @@ export default function Page({
           </div>
           {loading ? (
             <div className="mt-32 w-full flex justify-center items-center">
-              <Loader2
-                className={`animate-spin text-primary text-2xl h-12 w-12`}
-              />
+              <Loader2 className="animate-spin text-primary text-2xl h-12 w-12" />
             </div>
           ) : (
             <DataTable columns={columns} data={data} />
@@ -231,6 +193,6 @@ export default function Page({
           </div>
         </div>
       </Container>
-    </div>
+    </Suspense>
   );
 }

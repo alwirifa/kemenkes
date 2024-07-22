@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
@@ -13,13 +15,6 @@ type IntansiPercentageRespone = {
   melanjutkan_pendidikan: string;
 };
 
-type SearchParams = {
-  query?: string;
-  page?: string;
-  limit?: string;
- };
- 
- 
 function NakesSummary() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true); 

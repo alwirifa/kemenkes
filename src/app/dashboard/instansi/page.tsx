@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Container from "@/components/Container";
 import { columns } from "@/components/dashboard/instansi/table/columns";
 import { DataTable } from "@/components/dashboard/instansi/table/data-table";
@@ -21,26 +21,11 @@ import CheckBoxGroup from "@/components/dashboard/responden/checkbox";
 import IntansiSummary from "@/components/dashboard/instansi/summary/summary";
 
 const instansiOptions = [
-  {
-    value: "RS Swasta",
-    label: "RS Swasta",
-  },
-  {
-    value: "Puskesmas",
-    label: "Puskesmas",
-  },
-  {
-    value: "RS Pemerintah",
-    label: "RS Pemerintah",
-  },
-  {
-    value: "Klinik Swasta",
-    label: "Klinik Swasta",
-  },
-  {
-    value: "Non Fanyakes",
-    label: "Non Fanyakes",
-  },
+  { value: "RS Swasta", label: "RS Swasta" },
+  { value: "Puskesmas", label: "Puskesmas" },
+  { value: "RS Pemerintah", label: "RS Pemerintah" },
+  { value: "Klinik Swasta", label: "Klinik Swasta" },
+  { value: "Non Fanyakes", label: "Non Fanyakes" },
 ];
 
 export default function Page({
@@ -120,7 +105,7 @@ export default function Page({
       <Container>
         <div className="flex flex-col gap-6">
           <h1 className="text-4xl text-primary font-semibold">Instansi</h1>
-          <IntansiSummary/>
+          <IntansiSummary />
           <BarChartComponent />
 
           <div className="w-full flex justify-between items-center">
@@ -132,9 +117,9 @@ export default function Page({
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 className="feather feather-table text-primary"
               >
                 <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"></path>
@@ -143,46 +128,18 @@ export default function Page({
             </div>
             <div className="flex gap-2">
               <Search placeholder="Cari data ..." />
-
-              {/* <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <div className="px-4 py-2 rounded-md border border-primary text-primary text-sm cursor-pointer">
-                    Opsi
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="w-[300px] bg-background rounded-md shadow-lg "
-                  align="end"
-                >
-                  <DropdownMenuItem className="rounded-md px-3 py-2 text-sm  items-start justify-start flex flex-col gap-2 focus:bg-white">
-                    <h1 className="font-semibold">Jenis Intansi</h1>
-                  </DropdownMenuItem>
-                  <CheckBoxGroup
-                    title="Category"
-                    options={instansiOptions}
-                    onSelectionChange={handleCheckboxChange}
-                  />
-
-                  <DropdownMenuSeparator className="my-1" />
-
-                  <DropdownMenuItem className="rounded-md px-3 py-2 text-sm focus:bg-white">
-                    <div className="w-full rounded-md py-2 border text-center border-primary text-primary hover:bg-primary hover:text-white cursor-pointer">
-                      <h1>Unduh Laporan</h1>
-                    </div>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu> */}
             </div>
           </div>
-          {loading ? (
-            <div className="mt-32 w-full flex justify-center items-center">
-              <Loader2
-                className={`animate-spin text-primary text-2xl h-12 w-12`}
-              />
-            </div>
-          ) : (
-            <DataTable columns={columns} data={data} />
-          )}
+          <Suspense fallback={<div>Loading...</div>}>
+            {loading ? (
+              <div className="mt-32 w-full flex justify-center items-center">
+                <Loader2 className="animate-spin text-primary text-2xl h-12 w-12" />
+              </div>
+            ) : (
+              <DataTable columns={columns} data={data} />
+            )}
+          </Suspense>
+
           <div className="w-full flex justify-end mt-4">
             <Pagination totalPages={totalPages} />
           </div>
