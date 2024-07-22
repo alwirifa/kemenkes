@@ -21,15 +21,20 @@ import { toast, Toaster } from "react-hot-toast";
 
 const formSchema = z.object({
   email: z.string().email("Email tidak valid"),
-  password: z.string()
+  password: z
+    .string()
     .min(3, { message: "Masukan Password" })
-    .refine(value => value !== 'wrong_password', {
+    .refine((value) => value !== "wrong_password", {
       message: "Password salah",
     }),
 });
 
 export default function Home() {
   const router = useRouter();
+  const [isFocused, setIsFocused] = useState(false);
+
+  const [passwordFocused, setPasswordFocused] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,11 +45,14 @@ export default function Home() {
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     toast.promise(
-      axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/v1/login-admin`, values, { withCredentials: true })
-        .then(response => {
+      axios
+        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/v1/login-admin`, values, {
+          withCredentials: true,
+        })
+        .then((response) => {
           localStorage.setItem("token", response.data.data.token);
           document.cookie = `token=${response.data.data.token}; path=/;`;
-  
+
           router.push("/dashboard");
           console.log("Response:", response.data);
         }),
@@ -55,8 +63,6 @@ export default function Home() {
       }
     );
   };
-
-
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 lg:px-0 lg:grid lg:grid-cols-2">
@@ -81,98 +87,88 @@ export default function Home() {
             <FormField
               control={form.control}
               name="email"
-              render={({ field }) => {
-                const [isFocused, setIsFocused] = useState(false);
-
-                return (
-                  <FormItem className="relative">
-                    <FormLabel className="font-semibold">
-                      Email address
-                    </FormLabel>
-                    <FormControl>
-                      <div className="relative flex items-center">
-                        <Input
-                          placeholder="Email address"
-                          type="email"
-                          {...field}
-                          className="py-6 placeholder:italic placeholder:text-muted text-primary"
-                          onFocus={() => setIsFocused(true)}
-                          onBlur={() => setIsFocused(false)}
-                        />
-                        <div
-                          className={`absolute right-0 pr-3 ${
-                            isFocused ? "text-primary" : ""
-                          }`}
+              render={({ field }) => (
+                <FormItem className="relative">
+                  <FormLabel className="font-semibold">Email address</FormLabel>
+                  <FormControl>
+                    <div className="relative flex items-center">
+                      <Input
+                        placeholder="Email address"
+                        type="email"
+                        {...field}
+                        className="py-6 placeholder:italic placeholder:text-muted text-primary"
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                      />
+                      <div
+                        className={`absolute right-0 pr-3 ${
+                          isFocused ? "text-primary" : ""
+                        }`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="feather feather-mail"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-mail"
-                          >
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                          </svg>
-                        </div>
+                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                          <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
                       </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
 
             <FormField
               control={form.control}
               name="password"
-              render={({ field }) => {
-                const [isFocused, setIsFocused] = useState(false);
-
-                return (
-                  <FormItem>
-                    <FormLabel className="font-semibold">Password</FormLabel>
-                    <FormControl>
-                      <div className="relative flex items-center">
-                        <Input
-                          placeholder="Password"
-                          type="password"
-                          {...field}
-                          className="py-6 placeholder:italic placeholder:text-muted text-primary"
-                          onFocus={() => setIsFocused(true)}
-                          onBlur={() => setIsFocused(false)}
-                        />
-                        <div
-                          className={`absolute right-0 pr-3 ${
-                            isFocused ? "text-primary" : ""
-                          }`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">Password</FormLabel>
+                  <FormControl>
+                    <div className="relative flex items-center">
+                      <Input
+                        placeholder="Password"
+                        type="password"
+                        {...field}
+                        className="py-6 placeholder:italic placeholder:text-muted text-primary"
+                        onFocus={() => setPasswordFocused(true)}
+                        onBlur={() => setPasswordFocused(false)}
+                      />
+                      <div
+                        className={`absolute right-0 pr-3 ${
+                          isFocused ? "text-primary" : ""
+                        }`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="feather feather-key"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-key"
-                          >
-                            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
-                          </svg>
-                        </div>
+                          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                        </svg>
                       </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
             <div className="mt-4 w-full max-w-max lg:mx-0">
               <button

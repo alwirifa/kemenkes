@@ -11,7 +11,7 @@ import Pagination from "@/components/pagination";
 import { useSearchParams } from "next/navigation";
 import HomeSummary from "@/components/dashboard/home/summary/summary";
 
-export default function page({
+export default function Page({
   searchParams,
 }: {
   searchParams?: {
@@ -75,14 +75,6 @@ export default function page({
     loadData();
   }, [searchParams?.page, currentPage, chartMode]);
 
-  // if (loading) {
-  //   return (
-  //     <div className="h-screen w-full flex justify-center items-center">
-  //       <Loader2 className={`animate-spin text-primary text-2xl h-12 w-12`} />
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="">
       <Container>
@@ -97,9 +89,9 @@ export default function page({
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 className="feather feather-book-open text-primary"
               >
                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
@@ -134,9 +126,9 @@ export default function page({
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="feather feather-table text-primary"
             >
               <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"></path>
@@ -144,8 +136,6 @@ export default function page({
             <p className="font-medium">Summary</p>
           </div>
 
-          {/* 
-          <DataTable columns={columns} data={data} /> */}
           {loading ? (
             <div className="mt-32 w-full flex justify-center items-center">
               <Loader2

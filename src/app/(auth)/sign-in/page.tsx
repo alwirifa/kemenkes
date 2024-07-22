@@ -21,12 +21,12 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
- } from "@/components/ui/popover";
- import { Button } from "@/components/ui/button";
- import { format } from "date-fns";
- import { CalendarIcon } from "lucide-react";
- import { cn } from "@/lib/utils";
- import { Calendar } from "@/components/ui/calendar";
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -36,9 +36,9 @@ const formSchema = z.object({
 const handleDateChange = (field: any, date: Date | undefined) => {
   const formattedDate = date ? format(date, "yyyy-MM-dd") : "";
   field.onChange(formattedDate);
- };
+};
 
-export default function Home() {
+export default function SignInPage() {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,6 +47,8 @@ export default function Home() {
       tanggal_lahir: "",
     },
   });
+
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -84,99 +86,46 @@ export default function Home() {
             <FormField
               control={form.control}
               name="email"
-              render={({ field }) => {
-                const [isFocused, setIsFocused] = useState(false);
-
-                return (
-                  <FormItem className="relative">
-                    <FormLabel className="font-semibold">
-                      Email address
-                    </FormLabel>
-                    <FormControl>
-                      <div className="relative flex items-center">
-                        <Input
-                          placeholder="Email address"
-                          type="email"
-                          {...field}
-                          className="py-6 placeholder:italic placeholder:text-muted text-primary"
-                          onFocus={() => setIsFocused(true)}
-                          onBlur={() => setIsFocused(false)}
-                        />
-                        <div
-                          className={`absolute right-0 pr-4 ${
-                            isFocused ? "text-primary" : "text-[#B8B8BC]"
-                          }`}
+              render={({ field }) => (
+                <FormItem className="relative">
+                  <FormLabel className="font-semibold">Email address</FormLabel>
+                  <FormControl>
+                    <div className="relative flex items-center">
+                      <Input
+                        placeholder="Email address"
+                        type="email"
+                        {...field}
+                        className="py-6 placeholder:italic placeholder:text-muted text-primary"
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                      />
+                      <div
+                        className={`absolute right-0 pr-4 ${
+                          isFocused ? "text-primary" : "text-[#B8B8BC]"
+                        }`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="feather feather-mail"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-mail"
-                          >
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                          </svg>
-                        </div>
+                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                          <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
                       </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-
-            {/* <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => {
-                const [isFocused, setIsFocused] = useState(false);
-
-                return (
-                  <FormItem>
-                    <FormLabel className="font-semibold">Password</FormLabel>
-                    <FormControl>
-                      <div className="relative flex items-center">
-                        <Input
-                          placeholder="Password"
-                          type="password"
-                          {...field}
-                          className="py-6 placeholder:italic placeholder:text-muted text-primary"
-                          onFocus={() => setIsFocused(true)}
-                          onBlur={() => setIsFocused(false)}
-                        />
-                        <div
-                          className={`absolute right-0 pr-3 ${
-                            isFocused ? "text-primary" : ""
-                          }`}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-key"
-                          >
-                            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
-                          </svg>
-                        </div>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            /> */}
 
             <FormField
               control={form.control}
@@ -197,7 +146,9 @@ export default function Home() {
                           {field.value ? (
                             format(new Date(field.value), "PPP")
                           ) : (
-                            <span className="text-muted italic">Pilih Tanggal Lahir</span>
+                            <span className="text-muted italic">
+                              Pilih Tanggal Lahir
+                            </span>
                           )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
@@ -240,7 +191,9 @@ export default function Home() {
           className="text-sm text-muted-foreground  lg:text-left"
         >
           Belum memiliki akun?
-          <span className="ml-1 hover:underline cursor-pointer">Isi kuesioner</span>
+          <span className="ml-1 hover:underline cursor-pointer">
+            Isi kuesioner
+          </span>
         </Link>
       </div>
       <div className="hidden lg:block h-full w-full relative">

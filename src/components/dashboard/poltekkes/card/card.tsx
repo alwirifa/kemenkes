@@ -94,7 +94,7 @@ function PoltekkesCard() {
                 </div>
 
                 <div className="-translate-y-2 text-xs sm:text-sm italic text-primary font-semibold flex gap-2">
-                  <p>Lulusan ('20-23'): {item.lulusan} lulusan</p>
+                  <p>Lulusan 20-23: {item.lulusan} lulusan</p>
                   <p>|</p>
                   <p>Responden: {item.total_responden} responden</p>
                 </div>
