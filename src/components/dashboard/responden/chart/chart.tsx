@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
+import { Loader2 } from "lucide-react";
 
 function BarChartComponent() {
   const [data, setData] = useState([]);
@@ -50,7 +51,9 @@ function BarChartComponent() {
   return (
     <div style={{ width: "100%", height: 300 }}>
       {isLoading ? (
-        <p>Loading...</p>
+        <div className="mt-32 w-full flex justify-center items-center">
+          <Loader2 className="animate-spin text-primary text-2xl h-12 w-12" />
+        </div>
       ) : (
         <ResponsiveContainer>
           <BarChart

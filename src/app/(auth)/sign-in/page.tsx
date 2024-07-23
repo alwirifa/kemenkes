@@ -27,10 +27,11 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   email: z.string().email(),
-  tanggal_lahir: z.string().min(1, "Tanggal Lahir harus diisi"),
+  birth_date: z.string().min(1, "Tanggal Lahir harus diisi"),
 });
 
 const handleDateChange = (field: any, date: Date | undefined) => {
@@ -44,24 +45,33 @@ export default function SignInPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      tanggal_lahir: "",
+      birth_date: "",
     },
   });
 
   const [isFocused, setIsFocused] = useState(false);
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      const response = await axios.post(
-        "https://close-positive-bunny.ngrok-free.app/api/auth/login",
-        values,
-        { withCredentials: true }
-      );
-      router.push("/admin");
-      console.log("Response:", response.data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    toast.promise(
+      axios
+        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/v1/login-user`, values, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          localStorage.setItem("token", response.data.data.token);
+          localStorage.setItem("id", response.data.data.id);
+          document.cookie = `token=${response.data.data.token}; path=/;`;
+          document.cookie = `role=${response.data.data.role}; path=/;`;
+
+          router.push("/user-profile");
+          console.log("Response:", response.data);
+        }),
+      {
+        loading: "Loading...",
+        success: "Login successful!",
+        error: "Login failed. Please try again.",
+      }
+    );
   };
 
   return (
@@ -129,7 +139,7 @@ export default function SignInPage() {
 
             <FormField
               control={form.control}
-              name="tanggal_lahir"
+              name="birth_date"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Tanggal Lahir</FormLabel>

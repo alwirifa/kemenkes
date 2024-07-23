@@ -9,9 +9,7 @@ function page() {
     <div>
       <Container>
         <div className="flex flex-col gap-6">
-          <Suspense fallback={<div>Loading...</div>}>
-            <PoltekkesCard />
-          </Suspense>
+          <PoltekkesCard />
         </div>
       </Container>
     </div>

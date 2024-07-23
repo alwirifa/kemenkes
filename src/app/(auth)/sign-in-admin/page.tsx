@@ -52,6 +52,7 @@ export default function Home() {
         .then((response) => {
           localStorage.setItem("token", response.data.data.token);
           document.cookie = `token=${response.data.data.token}; path=/;`;
+          document.cookie = `role=${response.data.data.role}; path=/;`;
 
           router.push("/dashboard");
           console.log("Response:", response.data);
@@ -146,7 +147,7 @@ export default function Home() {
                       />
                       <div
                         className={`absolute right-0 pr-3 ${
-                          isFocused ? "text-primary" : ""
+                          passwordFocused ? "text-primary" : ""
                         }`}
                       >
                         <svg

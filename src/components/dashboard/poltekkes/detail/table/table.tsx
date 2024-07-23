@@ -60,16 +60,15 @@ const statusOptions = [
   },
 ];
 
-
 type SearchParams = {
- query?: string;
- page?: string;
- limit?: string;
+  query?: string;
+  page?: string;
+  limit?: string;
 };
 
 type Props = {
- id: number;
- searchParams?: SearchParams;
+  id: number;
+  searchParams?: SearchParams;
 };
 
 function AlumniDetailTable({ id, searchParams }: Props) {
@@ -127,7 +126,7 @@ function AlumniDetailTable({ id, searchParams }: Props) {
         nama_tempat_kerja: item.nama_tempat_kerja,
         tanggal_str: item.tanggal_str || "-",
       }));
-console.log(summary_responden_detail)
+      console.log(summary_responden_detail);
       setTotalPages(total_page);
       return formattedData;
     } catch (error) {
@@ -147,7 +146,43 @@ console.log(summary_responden_detail)
     }
 
     loadData();
-  }, [searchParams?.page, query, currentPage, selectedCategory, selectedStatus]);
+  }, [
+    searchParams?.page,
+    query,
+    currentPage,
+    selectedCategory,
+    selectedStatus,
+  ]);
+
+  const handleDownload = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("Token is missing");
+      return;
+    }
+
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/v1/auth/export-dashboard?type=poltekkes&poltekkes-id=${id}`;
+
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: "blob",
+      });
+
+      const urlBlob = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = urlBlob;
+      link.setAttribute("download", `summary.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error("There was a problem with the axios operation:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -169,7 +204,31 @@ console.log(summary_responden_detail)
           </svg>
           <p className="font-bold text-2xl">Detil Alumni</p>
         </div>
+
         <div className="flex gap-2">
+          <div
+            onClick={handleDownload}
+            className="px-4 py-2 flex gap-2 items-center rounded-md border border-primary text-primary text-sm cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="feather feather-download"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <p>download</p>
+          </div>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="px-4 py-2 rounded-md border border-primary text-primary text-sm cursor-pointer">
@@ -192,28 +251,30 @@ console.log(summary_responden_detail)
           </DropdownMenu>
 
           <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <div className="px-4 py-2 rounded-md border border-primary text-primary text-sm cursor-pointer">
-                    Status
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="w-48 bg-background rounded-md shadow-lg "
-                  align="end"
+            <DropdownMenuTrigger asChild>
+              <div className="px-4 py-2 rounded-md border border-primary text-primary text-sm cursor-pointer">
+                Status
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="w-48 bg-background rounded-md shadow-lg "
+              align="end"
+            >
+              {statusOptions.map((option) => (
+                <div
+                  key={option.value}
+                  className={`rounded-md px-3 py-2 text-sm cursor-pointer mt-1 ${
+                    selectedStatus === option.value
+                      ? "font-medium bg-primary text-white"
+                      : "hover:bg-primary/20"
+                  }`}
+                  onClick={() => handleStatusChange(option.value)}
                 >
-                  {statusOptions.map((option) => (
-                    <div
-                      key={option.value}
-                      className={`rounded-md px-3 py-2 text-sm cursor-pointer mt-1 ${
-                        selectedStatus === option.value ? "font-medium bg-primary text-white" : "hover:bg-primary/20"
-                      }`}
-                      onClick={() => handleStatusChange(option.value)}
-                    >
-                      <span>{option.label}</span>
-                    </div>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                  <span>{option.label}</span>
+                </div>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Search placeholder="Cari data ..." />
         </div>
       </div>

@@ -1,30 +1,16 @@
+"use client"
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
-import Link from "next/link";
-import { useParams, useSearchParams } from "next/navigation";
-
-type PoltekkesType = {
-  poltekkes_id: number;
-  poltekkes_name: string;
-  bekerja: string;
-  belum_bekerja: string;
-  melanjutkan_pendidikan: string;
-  lulusan: string;
-  total_responden: string;
-};
 
 type Props = {
   id: number;
 };
 
 function PoltekkesCardDetail({ id }: Props) {
-  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
   const [percentageWorkStatus, setPercentageWorkStatus] = useState([]);
-  const [summaryWorkStatusNakes, setSummaryWorkStatusNakes] = useState([]);
-  const [summaryRespondenDetail, setSummaryRespondenDetail] = useState([]);
   const [totalLulusan, setTotalLulusan] = useState("");
   const [totalResponden, setTotalRespondedn] = useState("");
   const [respondRate, setRespondRate] = useState("");
@@ -53,9 +39,6 @@ function PoltekkesCardDetail({ id }: Props) {
           total_lulusan,
           respond_rate,
           poltekkes_name,
-          total_page,
-          summary_work_status_nakes,
-          summary_responden_detail,
         } = response.data.data;
 
         setRespondRate(respond_rate);
@@ -71,53 +54,7 @@ function PoltekkesCardDetail({ id }: Props) {
             percentage_responden: item.percentage_responden,
           })) || [];
 
-        // const fetchedDataWorkStatus =
-        //   percentage_work_statuses?.map((item: any) => ({
-        //     work_status: item.work_status,
-        //     number_reposden: item.number_responden,
-        //     percentage_responden: item.percentage_responden,
-        //   })) || [];
-
         setPercentageWorkStatus(fetchDataPercentageWorkStatus);
-
-        // const fetchedDataSummaryWorkStatus =
-        //   summary_work_status_nakes?.map((item: any) => ({
-        //     work_status: item.work_status,
-        //     number_reposden: item.responden,
-        //     percentage_responden: item.percentage_respondedn,
-        //     nakes: item.nakes,
-        //     bekerja: item.bekerja,
-        //     belum_bekerja: item.belum_bekerja,
-        //     melanjutkan_pendidikan: item.melanjutkan_pendidikan,
-        //   })) || [];
-
-        // setSummaryWorkStatusNakes(fetchedDataSummaryWorkStatus);
-
-        // const fetchedDataSummaryRespondenDetail =
-        //   summary_responden_detail.map((item: any) => ({
-        //     work_status: item.work_status,
-        //     number_reposden: item.responden,
-        //     percentage_responden: item.percentage_respondedn,
-        //   })) || [];
-
-        // setSummaryRespondenDetail(fetchedDataSummaryRespondenDetail);
-
-        // const fetchedData =
-        //   data?.map((item: any) => ({
-        //     poltekkes_id: item.poltekkes_id,
-        //     poltekkes_name: item.poltekkes_name,
-        //     bekerja: item.bekerja,
-        //     belum_bekerja: item.belum_bekerja,
-        //     melanjutkan_pendidikan: item.melanjutkan_pendidikan,
-        //     lulusan: item.lulusan,
-        //     total_responden: item.total_responden,
-        //   })) || [];
-
-        // setData(fetchedData);
-
-        // console.log("work status", percentageWorkStatus);
-        // console.log("usmmart", summaryWorkStatusNakes);
-        // console.log("sumarry", summary_responden_detail);
         console.log("work status", fetchDataPercentageWorkStatus);
       } catch (error) {
         console.error("Error fetching data:", error);

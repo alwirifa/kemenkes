@@ -100,6 +100,36 @@ export default function Page({
     loadData();
   }, [searchParams?.page, query, currentPage, selectedCategory]);
 
+  const handleDownload = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("Token is missing");
+      return;
+    }
+
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/v1/auth/export-dashboard?type=instansi`;
+
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: "blob",
+      });
+
+      const urlBlob = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = urlBlob;
+      link.setAttribute("download", "instansi-summary.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error("There was a problem with the axios operation:", error);
+    }
+  };
+
   return (
     <div className="">
       <Container>
@@ -108,7 +138,7 @@ export default function Page({
           <IntansiSummary />
           <BarChartComponent />
 
-          <div className="w-full flex justify-between items-center">
+          <div className="w-full flex justify-between">
             <div className="flex gap-2 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -126,19 +156,42 @@ export default function Page({
               </svg>
               <p className="font-medium">Summary</p>
             </div>
+
             <div className="flex gap-2">
+              <div
+                onClick={handleDownload}
+                className="px-4 py-2 flex gap-2 items-center rounded-md border border-primary text-primary text-sm cursor-pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  className="feather feather-download"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <p>download</p>
+              </div>
+
               <Search placeholder="Cari data ..." />
             </div>
           </div>
-          <Suspense fallback={<div>Loading...</div>}>
-            {loading ? (
-              <div className="mt-32 w-full flex justify-center items-center">
-                <Loader2 className="animate-spin text-primary text-2xl h-12 w-12" />
-              </div>
-            ) : (
-              <DataTable columns={columns} data={data} />
-            )}
-          </Suspense>
+
+          {loading ? (
+            <div className="mt-32 w-full flex justify-center items-center">
+              <Loader2 className="animate-spin text-primary text-2xl h-12 w-12" />
+            </div>
+          ) : (
+            <DataTable columns={columns} data={data} />
+          )}
 
           <div className="w-full flex justify-end mt-4">
             <Pagination totalPages={totalPages} />
