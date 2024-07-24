@@ -180,7 +180,7 @@ export default function Page() {
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
               </svg>
-              <p>download</p>
+              <p>Download</p>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -207,7 +207,7 @@ export default function Page() {
                 align="end"
               >
                 <DropdownMenuItem className="rounded-md px-3 py-2 text-sm items-start justify-start flex flex-col gap-2 focus:bg-white">
-                  <h1 className="font-semibold">Jenis Intansi</h1>
+                  <h1 className="font-semibold">Jenis Instansi</h1>
                 </DropdownMenuItem>
                 <CheckBoxGroup
                   title="Category"

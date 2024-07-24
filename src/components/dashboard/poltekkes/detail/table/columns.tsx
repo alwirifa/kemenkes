@@ -47,7 +47,7 @@ export const columns: ColumnDef<any>[] = [
   },
   {
     accessorKey: "jenis_instansi",
-    header: "Intansi",
+    header: "Instansi",
   },
   {
     accessorKey: "nama_prodi",

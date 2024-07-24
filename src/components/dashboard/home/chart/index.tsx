@@ -18,6 +18,14 @@ const PieChartComponent: React.FC = () => {
   const [respondeRate, setRespondRate] = useState<any>("")
   const [totalLulusan,setTotalLulusan ] = useState<any>("")
 
+  const formatNumber = (number: any) => {
+    const roundedNumber = Math.round(number / 1000) * 1000;
+    
+    return new Intl.NumberFormat('id-ID').format(roundedNumber);
+};
+
+
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -43,7 +51,7 @@ const PieChartComponent: React.FC = () => {
           })) || [];
 
         setTotalResponden(total_responden);
-        setTotalLulusan(total_lulusan)
+        setTotalLulusan(formatNumber(total_lulusan))
         setRespondRate(respond_rate)
         setApiData(fetchedData);
       } catch (error) {

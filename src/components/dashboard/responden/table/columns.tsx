@@ -48,7 +48,7 @@ export const columns: ColumnDef<any>[] = [
   },
   {
     accessorKey: "graduate",
-    header: "Tanggal keliar ijazah",
+    header: "Tanggal keluar ijazah",
   },
   {
     accessorKey: "status",

@@ -1,5 +1,5 @@
-import { FormProvider } from "@/components/form/context";
-import FormKuesioner from "@/components/form/form";
+import { FormProvider } from "@/components/user/form/context";
+import FormKuesioner from "@/components/user/form/form";
 import React from "react";
 
 function page() {
