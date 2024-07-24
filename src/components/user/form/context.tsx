@@ -11,7 +11,7 @@ export type FormData = z.infer<typeof formSchema>;
 
 interface FormContextType {
   form: UseFormReturn<FormData>;
-  handleFormDataChange: (name: string, value: string) => void;
+  handleFormDataChange: (name: keyof FormData, value: string | number) => void;
   schema: typeof formSchema;
 }
 
@@ -29,12 +29,48 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [formData, setFormData] = useState<FormData | null>(null);
+
+  const initialFormData: FormData = {
+    nama_lengkap: "",
+    jenis_kelamin: "",
+    nomor_handphone: "",
+    provinsi_domisili: "",
+    poltekkes_id: 0,
+    prodi_id: 0,
+    nim: "",
+    tanggal_lulus: "",
+    str_type: "belum",
+    tanggal_str: "",
+    status_kerja: "Belum Bekerja",
+    lokasi_kerja: "",
+    negara_kerja: "",
+    sk_internasional_type: "",
+    sk_internasional: "",
+    sertifikat_bahasa: "",
+    tahun_mulai_kerja: "",
+    skema_penempatan_ln: "",
+    nama_tempat_kerja: "",
+    jabatan: "",
+    instansi_tempat_kerja_type: "",
+    instansi_tempat_kerja: "",
+    provinsi_tempat_kerja: "",
+    jenjang_pendidikan_ditempuh: "",
+    prodi_ditempuh: "",
+    kampus_ditempuh: "",
+    sosial_media: "",
+    sumber_survey_type: "",
+    sumber_survey: "",
+    sumber_survey_nama: "",
+    sumber_survey_no_hp: "",
+    sertifikat_bahasa_kemampuan: "",
+  };
+
+  const [formData, setFormData] = useState<FormData>(initialFormData);
   const [schema] = useState(formSchema);
 
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: formData ?? {}, // Provide empty object initially
+    defaultValues: formData, // Provide initialFormData initially
   });
 
   useEffect(() => {
@@ -57,38 +93,10 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
 
         // Initialize formData with fetched data
         const initialData: FormData = {
+          ...initialFormData, // Ensure all fields are accounted for
           nama_lengkap: data.nama_lengkap || "",
-          jenis_kelamin: "",
-          provinsi_domisili:  "",
           nomor_handphone: data.nomor_handphone || "",
-          str_type:  "",
-          tanggal_str:  "",
-          status_kerja:  "",
-          lokasi_kerja:  "",
-          negara_kerja:  "",
-          sk_internasional_type:  "",
-          sk_internasional: "",
-          sertifikat_bahasa:  "",
-          tahun_mulai_kerja:  "",
-          skema_penempatan_ln:  "",
-          nama_tempat_kerja:  "",
-          jabatan:  "",
-          instansi_tempat_kerja_type:  "",
-          instansi_tempat_kerja:  "",
-          provinsi_tempat_kerja:  "",
-          jenjang_pendidikan_ditempuh:  "",
-          prodi_ditempuh:  "",
-          kampus_ditempuh:"",
-          poltekkes_id: 0,
-          prodi_id:  0,
-          tanggal_lulus: "",
-          nim:  "",
-          sosial_media:  data.sosial_media || "",
-          sumber_survey_type:  "",
-          sumber_survey: "",
-          sumber_survey_nama:  "",
-          sumber_survey_no_hp: "",
-          sertifikat_bahasa_kemampuan:  "",
+          sosial_media: data.sosial_media || "",
         };
 
         setFormData(initialData);
@@ -104,8 +112,11 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
     fetchData();
   }, [form]);
 
-  const handleFormDataChange = (name: string, value: string) => {
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  const handleFormDataChange = (name: keyof FormData, value: string | number) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const contextValue: FormContextType = {
