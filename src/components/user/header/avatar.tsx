@@ -63,19 +63,19 @@ export default function AvatarUser() {
           
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-48 rounded-md border bg-background p-2 shadow-md right-0">
-          <Link href={`/user-profile`}>
+          {/* <Link href={`/user-profile`}>
             <DropdownMenuItem className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-muted cursor-pointer">
               <UserIcon className="h-4 w-4" />
               <span>Profile</span>
             </DropdownMenuItem>
-          </Link>
-          <Link href={`/user-profile/edit/${userId}`}>
+          </Link> */}
+          {/* <Link href={`/user-profile/edit/${userId}`}>
             <DropdownMenuItem className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-muted cursor-pointer">
               <SettingsIcon className="h-4 w-4" />
               <span>Settings</span>
             </DropdownMenuItem>
-          </Link>
-          <DropdownMenuSeparator className="my-1" />
+          </Link> */}
+          {/* <DropdownMenuSeparator className="my-1" /> */}
           <DropdownMenuItem className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-muted cursor-pointer">
             <LogOutIcon className="h-4 w-4" />
             <span onClick={handleLogout}>Logout</span>

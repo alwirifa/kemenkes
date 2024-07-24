@@ -56,7 +56,7 @@ function BarChartComponent() {
   }, []);
 
   return (
-    <div style={{ width: "100%", height: 300 }}>
+    <div style={{ width: "100%", height: 300 }} className="border rounded-lg p-4">
       {isLoading ? (
         <p>Loading...</p>
       ) : (

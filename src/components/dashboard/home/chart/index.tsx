@@ -171,11 +171,11 @@ const PieChartComponent: React.FC = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-col md:flex-row items-center h-full w-full relative">
-        <h1 className="absolute top-0 left-6 font-semibold">
+      <div className="flex flex-col md:flex-row items-center h-full w-full relative border p-6 rounded-md">
+        <h1 className="absolute top-6 left-6 font-semibold">
           Ringkasan Data *
         </h1>
-        <div className="rounded-md border-red-500">
+        <div className="rounded-md ">
           <PieChart width={width} height={height}>
             <Pie
               data={apiData}

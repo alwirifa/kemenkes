@@ -3,6 +3,7 @@
 import Container from "@/components/Container";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 function Page() {
@@ -50,11 +51,31 @@ function Page() {
           <div>
             {data ? (
               <div className="flex flex-col gap-6 font-medium">
-                <h1 className="text-4xl text-primary font-semibold">
-                  Data Anda
-                </h1>
+                <div className="w-full flex justify-between">
+                  <h1 className="text-4xl text-primary font-semibold">
+                    Data Anda
+                  </h1>
+                  <Link href={`/user-profile/edit`} className="flex gap-2 items-center border px-4 py-2 rounded-full">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      className="feather feather-edit"
+                    >
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                    <p>edit</p>
+                  </Link>
+                </div>
 
-                <section>
+                <section className="border border-neutral-200 rounded-lg p-6">
                   <h2 className="text-2xl font-semibold">
                     {data.nama_lengkap}
                   </h2>
@@ -63,29 +84,29 @@ function Page() {
                     <p className="hidden sm:block">|</p>
                     <p>Tanggal Lahir: {data.tanggal_lahir}</p>
                   </div>
+
+                  <div className="flex flex-col md:flex-row justify-between gap-6 mt-6 px-6 w-full">
+                    <div className="flex flex-col gap-2 mb-4 md:mb-0 border border-neutral-200 rounded-lg p-6 w-full">
+                      <p>Domisili</p>
+                      <p className="text-primary text-2xl">
+                        {data.provinsi_domisili}
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-2 mb-4 md:mb-0 border border-neutral-200 rounded-lg p-6 w-full">
+                      <p>Whatsapp</p>
+                      <p className="text-primary text-2xl">
+                        {data.nomor_handphone}
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-2 mb-4 md:mb-0 border border-neutral-200 rounded-lg p-6 w-full">
+                      <p>E-mail</p>
+                      <p className="text-primary text-2xl">{data.email}</p>
+                    </div>
+                  </div>
                 </section>
 
-                <div className="flex flex-col md:flex-row justify-between px-6 w-full">
-                  <div className="flex flex-col gap-2 mb-4 md:mb-0">
-                    <p>Domisili</p>
-                    <p className="text-primary text-2xl">
-                      {data.provinsi_domisili}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2 mb-4 md:mb-0">
-                    <p>Whatsapp</p>
-                    <p className="text-primary text-2xl">
-                      {data.nomor_handphone}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2 mb-4 md:mb-0">
-                    <p>E-mail</p>
-                    <p className="text-primary text-2xl">{data.email}</p>
-                  </div>
-                </div>
-
                 {/* Data Pendidikan */}
-                <section className="w-full md:w-[80%]">
+                <section className="w-full  border border-neutral-200 rounded-lg p-6">
                   <h2 className="text-2xl font-semibold mb-4">
                     Data Pendidikan
                   </h2>
@@ -137,7 +158,7 @@ function Page() {
 
                 {/* Data Pekerjaan */}
                 {data.work_status && (
-                  <section className="w-full md:w-[80%]">
+                  <section className="w-full border border-neutral-200 rounded-lg p-6">
                     <h2 className="text-2xl font-semibold mb-4">
                       Data Pekerjaan
                     </h2>

@@ -49,7 +49,7 @@ function BarChartComponent() {
   }, []);
 
   return (
-    <div style={{ width: "100%", height: 300 }}>
+    <div style={{ width: "100%", height: 300 }} className="border rounded-lg p-4">
       {isLoading ? (
         <div className="mt-32 w-full flex justify-center items-center">
           <Loader2 className="animate-spin text-primary text-2xl h-12 w-12" />

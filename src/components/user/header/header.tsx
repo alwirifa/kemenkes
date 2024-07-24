@@ -7,7 +7,6 @@ import AvatarAdmin from "./avatar";
 import DashboardNavigation from "./navigation";
 import AvatarUser from "./avatar";
 
-
 type Props = {};
 
 const UserHeader = (props: Props) => {
@@ -18,12 +17,13 @@ const UserHeader = (props: Props) => {
           <div className="flex items-center lg:gap-x-16 justify-between">
             <HeaderLogo />
 
-              {/* <Search /> */}
-            <div className="flex gap-2">
+            {/* <Search /> */}
+            <div className="flex gap-6 items-center">
               {/* <DashboardNavigation /> */}
-             
-                <AvatarUser />
-         
+              <Link href="/user-profile" className="font-semibold">
+                Home
+              </Link>
+              <AvatarUser />
             </div>
           </div>
         </div>
